@@ -44,6 +44,8 @@ db = SQL("sqlite:///predictor.db")
 def index():
     """Show upcoming fixtures"""
     user_id = session["user_id"]
+    update_fixtures_database()
+    
     return render_template("/index.html")
 
 

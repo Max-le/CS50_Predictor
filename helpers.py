@@ -1,25 +1,35 @@
 import os
 import requests
 import urllib.parse
-
+from cs50 import SQL
 from flask import redirect, render_template, request, session
 from functools import wraps
 from datetime import datetime
 
 
-def get_all_available(data_type):
-    response = requests.get(
-        f'https://api-football-v1.p.rapidapi.com/v2/{data_type}',
-        headers={'X-RapidAPI-Key': '8e33daace6msh8340cfb73cef51ep140be9jsn36c8f3ff8135'}
-    )
-    return response
-def get_league(league_id):
+db = SQL("sqlite:///predictor.db")
+
+def update_fixtures_database():
+    '''Performs an API Call and update Fixtures database accordingly'''
+    response_data = get_fixtures_league(754).json()
+    fixtures = response_data["api"]["fixtures"] 
+    print("\n\n\tDATA RECEIVED : \n\n")
+    for fixture in fixtures: 
+        print(f'\n{fixture}\n')
+    return 0
+    result = db.execute("INSERT INTO fixtures\
+        (fixture_id,league_id,event_date,status, venue,\
+        homeTeam,awayTeam, goalsHomeTeam, goalsAwayTeam, score\
+    ) VALUES ('''TODO''') ")
+    
+    
+def get_league_info(league_id):
     response = requests.get(
         f"https://api-football-v1.p.rapidapi.com/v2/leagues/league/{league_id}",
         headers={'X-RapidAPI-Key': '8e33daace6msh8340cfb73cef51ep140be9jsn36c8f3ff8135'}
     )
     return response
-def get_all_fixtures(league_id):
+def get_fixtures_league(league_id):
     date = datetime.today().strftime('%Y-%m-%d')
     response = requests.get(
         f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{league_id}/{date}",
