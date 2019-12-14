@@ -12,7 +12,11 @@ db = SQL("sqlite:///predictor.db")
 def update_fixtures_database():
     '''Performs an API Call and update Fixtures database accordingly'''
     response_data = get_fixtures_league(754).json()
-    fixtures = response_data["api"]["fixtures"] 
+    fixtures = response_data["api"]["fixtures"]
+    if not fixtures: 
+        print("NO DATA FOUND.")
+        return 1
+    print(response_data["api"]["results"], "entries. ")
     for fixture in fixtures: 
         result = db.execute("\
         INSERT INTO fixtures\
@@ -24,20 +28,24 @@ def update_fixtures_database():
         fixture_id=fixture["fixture_id"], league_id=fixture["league_id"], event_date=fixture["event_date"],\
         status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
         goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
-        print("DB INSERT result : ",result)
-def get_league_info(league_id):
-    response = requests.get(
-        f"https://api-football-v1.p.rapidapi.com/v2/leagues/league/{league_id}",
-        headers={'X-RapidAPI-Key': '8e33daace6msh8340cfb73cef51ep140be9jsn36c8f3ff8135'}
-    )
-    return response
-def get_fixtures_league(league_id):
-    #Get fixtures up to 15 days in the future
-    date = (datetime.today() + timedelta(days = 15)).strftime('%Y-%m-%d')
-    print(date)
+        if not result :
+            ##Try UPDATE
+            print(f"Couldn't write entry {fixture['fixture_id']}, it's likely it already exists.\nTrying UPDATE query... ")
+            
+            update_result = db.execute("UPDATE fixtures SET\
+            event_date = :event_date, status = :status, venue = :venue,\
+            goalsHomeTeam = :goalsHomeTeam, goalsAwayTeam = :goalsAwayTeam, score = :score WHERE fixture_id = :fixture_id",\
+            fixture_id=fixture["fixture_id"], event_date=fixture["event_date"],\
+            status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
+            goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
+            if not update_result: 
+                print("UPDATE FAILED. SOMETHING WENT WRONG. ", update_result)
+            print("UPDATE Successfull : ", update_result)
+        print("DB INSERT successfull:",result)
 
+def get_fixtures_league(league_id):
     response = requests.get(
-        f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{league_id}/{date}?timezone=Europe/Paris",
+        f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{league_id}?timezone=Europe/Paris",
         headers={'X-RapidAPI-Key': '8e33daace6msh8340cfb73cef51ep140be9jsn36c8f3ff8135'}
 
     )
