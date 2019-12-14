@@ -17,6 +17,7 @@ def update_fixtures_database():
         print("NO DATA FOUND.")
         return 1
     print(response_data["api"]["results"], "entries. ")
+    count = 0 
     for fixture in fixtures: 
         result = db.execute("\
         INSERT INTO fixtures\
@@ -34,14 +35,18 @@ def update_fixtures_database():
             
             update_result = db.execute("UPDATE fixtures SET\
             event_date = :event_date, status = :status, venue = :venue,\
-            goalsHomeTeam = :goalsHomeTeam, goalsAwayTeam = :goalsAwayTeam, score = :score WHERE fixture_id = :fixture_id",\
+            goalsHomeTeam = :goalsHomeTeam, awayTeam = :awayTeam, homeTeam = :homeTeam,\
+            goalsAwayTeam = :goalsAwayTeam, score = :score WHERE fixture_id = :fixture_id",\
             fixture_id=fixture["fixture_id"], event_date=fixture["event_date"],\
             status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
             goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
             if not update_result: 
                 print("UPDATE FAILED. SOMETHING WENT WRONG. ", update_result)
+                return 2; 
             print("UPDATE Successfull : ", update_result)
+        count+=1
         print("DB INSERT successfull:",result)
+    print(count, "fields updated.")
 
 def get_fixtures_league(league_id):
     response = requests.get(
@@ -51,6 +56,15 @@ def get_fixtures_league(league_id):
     )
     print(f"{response.headers['X-RateLimit-requests-Remaining']} / {response.headers['X-RateLimit-requests-Limit']} API calls remaining for today." )
     return response
+def replace_teams_names(fixture):
+    # Replace homeTeam and awayTeam fields by a string 
+    # containing only the name of the team instead of a JSON bundle. 
+    teamH_name = json.loads(fixture["homeTeam"])["team_name"]
+    teamA_name = json.loads(fixture["awayTeam"])["team_name"]
+
+    fixture["homeTeam"], fixture["awayTeam"] = teamH_name, teamA_name
+    return 0 
+
 
 def apology(message, code=400):
     """Render message as an apology to user."""

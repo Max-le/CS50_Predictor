@@ -44,9 +44,10 @@ db = SQL("sqlite:///predictor.db")
 def index():
     """Show upcoming fixtures"""
     user_id = session["user_id"]
-    update_fixtures_database()
-    
-    return render_template("/index.html")
+    fixtures = db.execute("SELECT event_date, venue, homeTeam, awayTeam FROM fixtures ")    
+    for f in fixtures: 
+        replace_teams_names(f)
+    return render_template("/index.html", fixtures=fixtures)
 
 
 @app.route("/mybets", methods=["GET", "POST"])
