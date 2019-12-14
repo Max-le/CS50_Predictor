@@ -40,13 +40,12 @@ dbTransactions = SQL("sqlite:///transactions.db")
 
 
 
-
 @app.route("/")
 @login_required
 def index():
     """Show upcoming fixtures"""
     user_id = session["user_id"]
-    
+
     return render_template("/index.html")
 
 
@@ -64,12 +63,6 @@ def check():
     """Return true if username available, else false, in JSON format"""
     return jsonify("TODO")
 
-
-@app.route("/history")
-@login_required
-def history():
-    """Show history of transactions"""
-    return apology("TODO")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -119,22 +112,6 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
-
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-    """Get stock quote."""
-    if request.method == "GET":
-        return render_template("quote.html")
-    elif request.method =="POST":
-
-        stock_data = lookup(request.form.get("symbol"))
-        if not stock_data:
-            return apology("Sorry, we couldn't find anything for this symbol.")
-        else:
-            return render_template("quoted.html", stock = stock_data )
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
@@ -167,65 +144,6 @@ def register():
         return render_template("register.html")
     else:
         return apology(f"{request.method} ? What kind of request is that ?")
-
-
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-    if request.method == "GET":
-        user_id = session["user_id"]
-        #Fetch list of owned stocks and how many of them
-        stocks = dbTransactions.execute("SELECT symbol, SUM(amountShares) FROM 'transactions'\
-        WHERE idUser=:user_id GROUP BY symbol; ", user_id=user_id )
-        for stock in stocks:
-            lookup_data = lookup(stock['symbol'])
-            stock['full_name'] = lookup_data['name']
-        print(stocks)
-        return render_template("sell.html", stocks=stocks)
-
-
-
-    elif request.method == "POST":
-        user_id = session["user_id"]
-        symbol_to_sell, shares_to_sell = request.form.get("symbol"), request.form.get("shares")
-        print(f"Received from FORM : {symbol_to_sell} x {shares_to_sell}.")
-        if not lookup(symbol_to_sell):
-            return apology(f"Sorry, couldn't find anything for this symbol.")
-        elif int(shares_to_sell) < 1 :
-            return apology("Please enter an positive integer for the number of stocks.")
-        else:
-            stock = lookup(symbol_to_sell)
-            print (f"Request is valid.\nSelling {shares_to_sell} shares of {stock['name']}...")
-            #checks users has that many stocks
-
-            stocks = dbTransactions.execute("SELECT symbol, SUM(amountShares) FROM 'transactions'\
-            WHERE idUser=:user_id GROUP BY symbol; ", user_id=user_id )
-            for stock in stocks:
-                if stock['symbol'] == symbol_to_sell:
-                    if int(stock['SUM(amountShares)']) < int(shares_to_sell):
-                        return apology("You don't have enough shares.")
-                    else:
-                        #perform the sell
-                        market_price = lookup(symbol_to_sell)['price']
-                        result = dbTransactions.execute("INSERT INTO transactions(idUser, symbol, amountShares, price, type) \
-                        VALUES (:idUser, :symbol, :amountShares, :price, :type ) ;",\
-                        idUser=session["user_id"], symbol=symbol_to_sell, amountShares= -int(shares_to_sell), price= market_price, type="SELL")
-                        if not result:
-                            return "Something went wrong."
-                        else:
-
-                            response = db.execute("SELECT cash from users WHERE id = :userID", userID=session["user_id"])
-                            cash = response[0]['cash']
-                            total_cost = float(market_price) * float(shares_to_sell)
-                            cash_result = db.execute("UPDATE users SET cash=:remaining_cash WHERE id=:userID",\
-                            remaining_cash=cash-total_cost, userID=session['user_id'])
-                            if not cash_result:
-                                return 'Oops, something went wrong.'
-                            else:
-                                return redirect("/")
-
-
-        return apology("This is a POST request.")
 
 
 
