@@ -45,11 +45,9 @@ dbTransactions = SQL("sqlite:///transactions.db")
 @login_required
 def index():
     """Show upcoming fixtures"""
-
     user_id = session["user_id"]
-    response = get_all_fixtures(754)
-
-    return render_template("/index.html", response=response.json())
+    
+    return render_template("/index.html")
 
 
 @app.route("/league", methods=["GET", "POST"])
