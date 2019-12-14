@@ -44,18 +44,16 @@ db = SQL("sqlite:///predictor.db")
 def index():
     """Show upcoming fixtures"""
     user_id = session["user_id"]
-
     return render_template("/index.html")
 
 
-@app.route("/league", methods=["GET", "POST"])
+@app.route("/mybets", methods=["GET", "POST"])
 @login_required
 def league():
     if request.method == "GET":
-        return render_template("league.html")
+        return render_template("/mybets.html")
     
     
-
 
 @app.route("/check", methods=["GET"])
 def check():
