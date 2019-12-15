@@ -9,10 +9,10 @@ from datetime import datetime, timedelta
 
 db = SQL("sqlite:///predictor.db")
 
-    
+
 def update_fixtures_database():
     '''Performs an API Call and update Fixtures database accordingly'''
-    response_data = get_fixtures_league(754).json()
+    response_data = get_fixtures_league(656).json() ##754= Current Bundesliga, 656=Current Pro League
     fixtures = response_data["api"]["fixtures"]
     if not fixtures: 
         print("NO DATA FOUND.")
@@ -48,6 +48,7 @@ def update_fixtures_database():
         count+=1
         print("DB INSERT successfull:",result)
     print(count, "fields updated.")
+    return count
 
 def get_fixtures_league(league_id):
     response = requests.get(

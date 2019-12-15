@@ -62,14 +62,42 @@ def league():
     if request.method == "GET":
         return render_template("/mybets.html")
     
-    
+
+@app.route('/update_database')  
+@login_required
+def update_database():
+    result = update_fixtures_database()
+    return f"{result} fields updated."
+
+
+@app.route("/savebet", methods=["POST"])
+@login_required
+def savebet():
+    '''Save a bet to the database'''
+    home_score, away_score = request.form.get('home_score'), request.form.get('away_score')
+    id = request.form.get('fixture_id')
+    return f"You are on /savebet route via POST request. Score received : {home_score} - {away_score} id : {id}"
+
 @app.route("/placebet", methods=["GET", "POST"])
 @login_required
 def placebet():
     if request.method == "GET":
-        return render_template("/placebet.html")
+        return "Only use this route with POST request from the home page."
     if request.method == "POST":
-        return f"POST REQUEST ! Received : \n\t {request.form.get('id')} "
+        print(f"POST REQUEST ! Received : \n\t {request.form.get('id')} ")
+        result = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam from fixtures WHERE fixture_id=:id", id=request.form.get('id'))
+        if not result:
+            return apology("Sorry, something went wrong.")
+        awayTeam_name = json.loads(result[0]["awayTeam"])["team_name"]
+        homeTeam_name = json.loads(result[0]["homeTeam"])["team_name"]
+        venue = result[0]["venue"]
+        fixture_id = result[0]["fixture_id"]
+        event_date = datetime.datetime.strptime(result[0]['event_date'], "%Y-%m-%dT%H:%M:%S%z")
+        return render_template("placebet.html", awayTeam_name=awayTeam_name, homeTeam_name=homeTeam_name,\
+        venue=venue, event_date=event_date, fixture_id=fixture_id)
+
+
+
 @app.route("/check", methods=["GET"])
 def check():
     """Return true if username available, else false, in JSON format"""

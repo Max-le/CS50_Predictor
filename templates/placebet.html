@@ -5,7 +5,28 @@
 {% endblock %}
 
 {% block main %}
-<h1>Make your bets here.</h1>
-<h3>Select an event in Home Page by clicking on "Place bet" ( this is a GET request.)
-</h3>
+<h1>Place your bets here.</h1>
+<br>
+<div style="background-color:#F8F9FA;border-style: solid;border-width: 1px; " class="container">
+  <div class="row">
+    <div class="col-sm-5">
+      <b>{{homeTeam_name}}</b>
+    </div>
+    <div class="col-sm-2">
+      vs.
+    </div>
+    <div class="col-sm-5">
+      <b>{{awayTeam_name}}</b>
+    </div>
+  </div>
+</div>
+Location : {{venue}}<br>
+Match begins at {{event_date}}. <br>
+<form action="/savebet" method="POST" id='form_bet'>
+<input hidden='true' value={{fixture_id}}, name="fixture_id">
+<input style="text-align: center; background-color:#F8F9FA ;" type="number" name="home_score" value=2 min="0" max="99"> - 
+<input style="text-align: center;background-color:#F8F9FA; " type="number"name="away_score" min="0" max="99" value=2>
+</form><br>
+<button class="btn btn-primary" form="form_bet" type="submit">Submit this bet</button>
+
 {% endblock %}
