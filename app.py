@@ -63,7 +63,13 @@ def league():
         return render_template("/mybets.html")
     
     
-
+@app.route("/placebet", methods=["GET", "POST"])
+@login_required
+def placebet():
+    if request.method == "GET":
+        return render_template("/placebet.html")
+    if request.method == "POST":
+        return f"POST REQUEST ! Received : \n\t {request.form.get('id')} "
 @app.route("/check", methods=["GET"])
 def check():
     """Return true if username available, else false, in JSON format"""

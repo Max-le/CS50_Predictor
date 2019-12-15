@@ -14,6 +14,7 @@
     <th>Team Home</th>
     <th>Team Away</th>
     <th>FIxture ID</th>
+    <th>Action</th>
   </tr>
   {% for fixture in fixtures %}
   <tr>
@@ -22,6 +23,12 @@
     <th>{{ fixture["homeTeam"] }}</th>
     <th>{{ fixture["awayTeam"] }}</th>
     <th>{{fixture["fixture_id"]}}</th>
+    <th>
+      <form action="/placebet" method="post" id="form_bet">
+        <input hidden='true' name="id" value="{{fixture['fixture_id']}}"/>
+      </form >
+      <button class="btn btn-success" type="submit" form="form_bet">Place bet</button>
+    </th>
   </tr>
 {% endfor %}
 
