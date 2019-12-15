@@ -77,11 +77,10 @@ def mybets():
 @app.route("/savebet", methods=["POST"])
 @login_required
 def savebet():
-    '''Save a bet to the database'''
+    '''Save a bet (received via POST) to the database'''
     home_score, away_score = request.form.get('home_score'), request.form.get('away_score')
-    guess_score=f"{str(home_score)} - {str(away_score)}"
     id = request.form.get('fixture_id')
-    print(id)
+    guess_score=f"{str(home_score)} - {str(away_score)}"#formats score for database
     result = db.execute("INSERT INTO bets (user_id, fixture_id, guess_score)\
         VALUES (:user_id , :fixture_id , :guess_score)",\
         user_id=session["user_id"], fixture_id=id, guess_score=guess_score )
@@ -96,7 +95,6 @@ def placebet():
     if request.method == "GET":
         return "Only use this route with POST request from the home page."
     if request.method == "POST":
-        print(f"POST REQUEST ! Received : \n\t {request.form.get('id')} ")
         result = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam from fixtures WHERE fixture_id=:id", id=request.form.get('id'))
         if not result:
             return apology("Sorry, something went wrong.")
