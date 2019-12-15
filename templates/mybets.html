@@ -14,10 +14,12 @@
       <th>Team Away</th>
 
     </tr>
-    {%for bet in user_bets %}
+    {%for bet in bets %}
     <tr>
       <th>{{bet['fixture_id']}}</th>
       <th>{{bet['guess_score']}}</th>
+      <th>{{bet['homeTeam']}}</th>
+      <th>{{bet['awayTeam']}}</th>
 
     </tr>
     {%endfor %}

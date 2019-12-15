@@ -50,6 +50,21 @@ def update_fixtures_database():
     print(count, "fields updated.")
     return count
 
+def local_fixture_data(fixture_id):
+    result = db.execute("SELECT * FROM fixtures WHERE fixture_id=:id", id=fixture_id)
+    if not result:
+        print("Warning : None result from SQL SELECT query")
+        return None
+    return result[0]
+def home_team_name(fixture_id):
+    f = local_fixture_data(fixture_id)
+    return json.loads(f["homeTeam"])["team_name"]
+
+def away_team_name(fixture_id):
+    f = local_fixture_data(fixture_id)
+    return json.loads(f["awayTeam"])["team_name"]
+
+
 def get_fixtures_league(league_id):
     response = requests.get(
         f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{league_id}?timezone=Europe/Paris",

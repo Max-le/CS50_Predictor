@@ -66,11 +66,13 @@ def update_database():
 @app.route("/mybets")
 @login_required
 def mybets():
-    result = db.execute("SELECT * FROM bets WHERE user_id=:user_id", user_id=session['user_id'])
-    print('\n\tRESULT  : ', result)
-    if not result:
+    bets = db.execute("SELECT * FROM bets WHERE user_id=:user_id", user_id=session['user_id'])
+    if not bytes:
         return apology('Something went wrong with the SQL query.')
-    return render_template("mybets.html", user_bets=result)
+    for bet in bets: 
+        bet["homeTeam"] = home_team_name(bet["fixture_id"])
+        bet["awayTeam"] = away_team_name(bet["fixture_id"])
+    return render_template("mybets.html", bets=bets)
 
 @app.route("/savebet", methods=["POST"])
 @login_required
@@ -80,15 +82,17 @@ def savebet():
     guess_score=f"{str(home_score)} - {str(away_score)}"
     id = request.form.get('fixture_id')
     print(id)
-    
     result = db.execute("INSERT INTO bets (user_id, fixture_id, guess_score)\
         VALUES (:user_id , :fixture_id , :guess_score)",\
         user_id=session["user_id"], fixture_id=id, guess_score=guess_score )
-    return f"Score received : {guess_score} id : {id}. Result query : {result}"
+    print(f"Score received : {guess_score} id : {id}. Result query : {result}")
+    return redirect("/mybets")
+
 
 @app.route("/placebet", methods=["GET", "POST"])
 @login_required
 def placebet():
+    '''Allows the use to create a bet on a fixture'''
     if request.method == "GET":
         return "Only use this route with POST request from the home page."
     if request.method == "POST":
