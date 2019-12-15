@@ -24,10 +24,10 @@
     <th>{{ fixture["awayTeam"] }}</th>
     <th>{{fixture["fixture_id"]}}</th>
     <th>
-      <form action="/placebet" method="post" id="form_bet">
+      <form action="/placebet" method="post" id="form_bet{{fixture['fixture_id']}}">
         <input hidden='true' name="id" value="{{fixture['fixture_id']}}"/>
       </form >
-      <button class="btn btn-success" type="submit" form="form_bet">Place bet</button>
+      <button class="btn btn-success" type="submit" form="form_bet{{fixture['fixture_id']}}">Place bet</button>
     </th>
   </tr>
 {% endfor %}
