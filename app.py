@@ -79,8 +79,6 @@ def mybets():
 def savebet():
     '''Save a bet (received via POST) to the database'''
     home_score, away_score = request.form.get('home_score'), request.form.get('away_score')
-    if not home_score or not away_score:
-        return apology("You didn\'t enter the score correctly. Please try again.", 400)
     id = request.form.get('fixture_id')
     guess_score=f"{str(home_score)} - {str(away_score)}"#formats score for database
     #check if there's no bet placed yet for this fixture
