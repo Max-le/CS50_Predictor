@@ -55,12 +55,6 @@ def index():
 
     return render_template("/index.html", fixtures=upcoming_fixtures)
 
-
-@app.route("/mybets", methods=["GET", "POST"])
-@login_required
-def league():
-    if request.method == "GET":
-        return render_template("/mybets.html")
     
 
 @app.route('/update_database')  
@@ -69,14 +63,28 @@ def update_database():
     result = update_fixtures_database()
     return f"{result} fields updated."
 
+@app.route("/mybets")
+@login_required
+def mybets():
+    result = db.execute("SELECT * FROM bets WHERE user_id=:user_id", user_id=session['user_id'])
+    print('\n\tRESULT  : ', result)
+    if not result:
+        return apology('Something went wrong with the SQL query.')
+    return render_template("mybets.html", user_bets=result)
 
 @app.route("/savebet", methods=["POST"])
 @login_required
 def savebet():
     '''Save a bet to the database'''
     home_score, away_score = request.form.get('home_score'), request.form.get('away_score')
+    guess_score=f"{str(home_score)} - {str(away_score)}"
     id = request.form.get('fixture_id')
-    return f"You are on /savebet route via POST request. Score received : {home_score} - {away_score} id : {id}"
+    print(id)
+    
+    result = db.execute("INSERT INTO bets (user_id, fixture_id, guess_score)\
+        VALUES (:user_id , :fixture_id , :guess_score)",\
+        user_id=session["user_id"], fixture_id=id, guess_score=guess_score )
+    return f"Score received : {guess_score} id : {id}. Result query : {result}"
 
 @app.route("/placebet", methods=["GET", "POST"])
 @login_required

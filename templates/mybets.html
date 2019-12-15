@@ -8,11 +8,18 @@
 <h1>You can see here a list of all your predictions.</h1>
 <table style="width:100%">
     <tr> 
-      <th>Date</th>
-      <th>Venue</th>
+      <th>ID</th>
+      <th>Your prediction</th>
       <th>Team Home</th>
       <th>Team Away</th>
-      <th>Your prediction</th>
+
     </tr>
+    {%for bet in user_bets %}
+    <tr>
+      <th>{{bet['fixture_id']}}</th>
+      <th>{{bet['guess_score']}}</th>
+
+    </tr>
+    {%endfor %}
   </table>
 {% endblock %}
