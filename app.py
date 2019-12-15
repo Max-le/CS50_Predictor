@@ -79,8 +79,14 @@ def mybets():
 def savebet():
     '''Save a bet (received via POST) to the database'''
     home_score, away_score = request.form.get('home_score'), request.form.get('away_score')
+    if not home_score or not away_score:
+        return apology("You didn\'t enter the score correctly. Please try again.", 400)
     id = request.form.get('fixture_id')
     guess_score=f"{str(home_score)} - {str(away_score)}"#formats score for database
+    #check if there's no bet placed yet for this fixture
+    check_bet = db.execute("SELECT * FROM bets WHERE fixture_id = :id", id=id)
+    if check_bet:
+        return f"Sorry, you alreay placed a bet for this event.\n\n {check_bet}"
     result = db.execute("INSERT INTO bets (user_id, fixture_id, guess_score)\
         VALUES (:user_id , :fixture_id , :guess_score)",\
         user_id=session["user_id"], fixture_id=id, guess_score=guess_score )
