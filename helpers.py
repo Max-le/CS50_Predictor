@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 
 db = SQL("sqlite:///predictor.db")
 
+    
 def update_fixtures_database():
     '''Performs an API Call and update Fixtures database accordingly'''
     response_data = get_fixtures_league(754).json()

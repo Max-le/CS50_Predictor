@@ -8,9 +8,8 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import *
-
+import datetime
 import requests
-
 # Configure application
 app = Flask(__name__)
 
@@ -44,10 +43,17 @@ db = SQL("sqlite:///predictor.db")
 def index():
     """Show upcoming fixtures"""
     user_id = session["user_id"]
-    fixtures = db.execute("SELECT event_date, venue, homeTeam, awayTeam FROM fixtures ")    
+    fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures ")    
+    print("Type : ", type(fixtures))
+    upcoming_fixtures = []
     for f in fixtures: 
-        replace_teams_names(f)
-    return render_template("/index.html", fixtures=fixtures)
+        replace_teams_names(f) 
+        date_event = datetime.datetime.strptime(f['event_date'], "%Y-%m-%dT%H:%M:%S%z")
+        #filter out past fixtures
+        if date_event.replace(tzinfo=None) > datetime.datetime.today():
+            upcoming_fixtures.append(f)
+
+    return render_template("/index.html", fixtures=upcoming_fixtures)
 
 
 @app.route("/mybets", methods=["GET", "POST"])

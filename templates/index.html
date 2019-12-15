@@ -13,6 +13,7 @@
     <th>Venue</th>
     <th>Team Home</th>
     <th>Team Away</th>
+    <th>FIxture ID</th>
   </tr>
   {% for fixture in fixtures %}
   <tr>
@@ -20,6 +21,7 @@
     <th>{{ fixture["venue"] }}</th>
     <th>{{ fixture["homeTeam"] }}</th>
     <th>{{ fixture["awayTeam"] }}</th>
+    <th>{{fixture["fixture_id"]}}</th>
   </tr>
 {% endfor %}
 
