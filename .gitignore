@@ -1,7 +1,4 @@
 predictor.db
 .vscode/launch.json
 __pycache__/app.cpython-37.pyc
-predictor.db
-.gitignore
 .DS_Store
-.vscode
