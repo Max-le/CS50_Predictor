@@ -75,7 +75,22 @@ def mybets():
         bet["awayTeam"] = away_team_name(id)
         bet["event_date"] = get_event_date(id)
     return render_template("mybets.html", bets=bets)
+@app.route("/past_fixtures")
+@login_required
+def past_fixtures():
+    """Show past fixtures"""
+    user_id = session["user_id"]
+    fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures ")    
+    print("Type : ", type(fixtures))
+    pastF = []
+    for f in fixtures: 
+        replace_teams_names(f) 
+        date_event = datetime.datetime.strptime(f['event_date'], "%Y-%m-%dT%H:%M:%S%z")
+        #filter out past fixtures
+        if date_event.replace(tzinfo=None) < datetime.datetime.today():
+            pastF.append(f)
 
+    return render_template("/index.html", fixtures=pastF)
 @app.route("/savebet", methods=["POST"])
 @login_required
 def savebet():
