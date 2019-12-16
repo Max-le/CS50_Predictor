@@ -12,7 +12,7 @@ class MyTest(unittest.TestCase):
         #should return a list containing two integers
         self.assertEqual( parse_scores("4 - 0")[0], 4)
         self.assertEqual( parse_scores("4 - 0")[1], 0)
-    def test_calcul_user_points(self):
+    def test_calculcate_score(self):
         self.assertEqual(type(calculate_score(4)), type(2)) 
 
         
