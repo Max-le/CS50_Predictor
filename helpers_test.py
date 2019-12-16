@@ -1,5 +1,5 @@
 import unittest
-from helpers import update_final_scores, get_event_date
+from helpers import * 
 class MyTest(unittest.TestCase):
     def test(self):
         self.assertTrue(True)
@@ -7,5 +7,11 @@ class MyTest(unittest.TestCase):
         self.assertEqual(update_final_scores(), 0)
     def test_get_event_date(self):
         # valid ID : 182801
-        self.assertEqual(get_event_date()) 
+        self.assertEqual(type(get_event_date(182801)), type("")) 
+    def test_parse_score(self):
+        #should return a list containing two integers
+        self.assertEqual( parse_scores("4 - 0")[0], 4)
+        self.assertEqual( parse_scores("4 - 0")[1], 0)
+
+
         

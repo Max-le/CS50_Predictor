@@ -93,6 +93,14 @@ def replace_teams_names(fixture):
     fixture["homeTeam"], fixture["awayTeam"] = teamH_name, teamA_name
     return 0 
 
+def parse_scores(scores: str) -> list:
+    '''Returns the score from string format '# - #' to list of two integers.'''
+    l = []
+    l.append(int(scores[0]))
+    l.append(int(scores[len(scores) - 1]))
+    return l
+
+
 def update_final_scores():
     '''Updates the 'final_score' field in Bets table from Fixtures table'''
     count = 0
