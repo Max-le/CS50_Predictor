@@ -50,8 +50,6 @@ def index():
         f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
     return render_template("/index.html", fixtures=fixtures)
 
-    
-
 @app.route('/update_database')  
 @login_required
 def update_database():
