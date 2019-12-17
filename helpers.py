@@ -106,7 +106,11 @@ def assign_user_score(user_id: int, points: int):
         return 1
     return 0 
 
-
+def get_user_points(user_id: int):
+    '''Returns the total amount of points of a user from the Users table'''
+    points = db.execute("SELECT points FROM users WHERE id=:u_id ;", u_id=user_id)
+    
+    return points[0]['points']
 def calculate_score(user_id: int) -> int:
     '''returns the total score of a user from its ID'''
     bets = db.execute("SELECT * FROM bets WHERE user_id=:id", id = user_id)

@@ -61,12 +61,16 @@ def index():
 @login_required
 def update_database():
     result = update_fixtures_database()
+    update_final_scores()
     return f"{result} fields updated."
 
 @app.route("/mybets")
 @login_required
+
 def mybets():
-    bets = db.execute("SELECT * FROM bets WHERE user_id=:user_id", user_id=session['user_id'])
+    u_id = session["user_id"]
+    bets = db.execute("SELECT * FROM bets WHERE user_id=:user_id", user_id=u_id)
+    assign_user_score(u_id, calculate_score(u_id))
     if not bytes:
         return apology('Something went wrong with the SQL query.')
     for bet in bets: 
@@ -74,7 +78,8 @@ def mybets():
         bet["homeTeam"] = home_team_name(id)
         bet["awayTeam"] = away_team_name(id)
         bet["event_date"] = get_event_date(id)
-    return render_template("mybets.html", bets=bets)
+    
+    return render_template("mybets.html", bets=bets, points=get_user_points(u_id))
 @app.route("/past_fixtures")
 @login_required
 def past_fixtures():
