@@ -51,8 +51,8 @@ def index():
         date_event = datetime.datetime.strptime(f['event_date'], "%Y-%m-%dT%H:%M:%S%z")
         #filter out past fixtures
         if date_event.replace(tzinfo=None) > datetime.datetime.today():
+            f['event_date'] = date_event.strftime("%d %b %Y @ %H:%M")#Formats date for better displaying
             upcoming_fixtures.append(f)
-
     return render_template("/index.html", fixtures=upcoming_fixtures)
 
     
