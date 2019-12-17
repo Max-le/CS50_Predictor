@@ -43,17 +43,12 @@ db = SQL("sqlite:///predictor.db")
 def index():
     """Show upcoming fixtures"""
     user_id = session["user_id"]
-    fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures ORDER BY event_date ")    
-    print("Type : ", type(fixtures))
-    upcoming_fixtures = []
+    now = datetime.datetime.strftime(datetime.datetime.today(), "%Y-%m-%dT%H:%M:%S%z")
+    fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures WHERE event_date>:now ORDER BY event_date ", now=now)    
     for f in fixtures: 
         replace_teams_names(f) 
-        date_event = datetime.datetime.strptime(f['event_date'], "%Y-%m-%dT%H:%M:%S%z")
-        #filter out past fixtures
-        if date_event.replace(tzinfo=None) > datetime.datetime.today():
-            f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
-            upcoming_fixtures.append(f)
-    return render_template("/index.html", fixtures=upcoming_fixtures)
+        f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
+    return render_template("/index.html", fixtures=fixtures)
 
     
 
