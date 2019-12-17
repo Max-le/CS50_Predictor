@@ -43,7 +43,7 @@ db = SQL("sqlite:///predictor.db")
 def index():
     """Show upcoming fixtures"""
     user_id = session["user_id"]
-    fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures ")    
+    fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures ORDER BY event_date ")    
     print("Type : ", type(fixtures))
     upcoming_fixtures = []
     for f in fixtures: 
