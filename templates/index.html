@@ -7,15 +7,17 @@
 {% block main %}
 <h1>Welcome to Predictor ⚽️ ! </h1> <br>
 <h3>Upcoming matches</h3>
-<table style="width:100%">
+<table class="table table-sm">
+  <thead class="">
   <tr> 
-    <th>Date</th>
-    <th>Venue</th>
-    <th>Team Home</th>
-    <th>Team Away</th>
-    <th>Fixture ID</th>
-    <th>Action</th>
+    <th scope='col'>Date</th>
+    <th scope='col'>Venue</th>
+    <th scope='col'>Team Home</th> 
+    <th scope='col'>Team Away</th>
+    <th scope='col'>Fixture ID</th>
+    <th scope='col'>Action</th>
   </tr>
+  </thead>
   {% for fixture in fixtures %}
   <tr>
     <th>{{ fixture["event_date"] }}</th>
