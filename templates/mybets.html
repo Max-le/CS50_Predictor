@@ -8,8 +8,9 @@
 <h1>You can see here a list of all your predictions.</h1>
 <table style="width:100%">
     <tr> 
-      <th>ID</th>
+      <th hidden>ID</th>
       <th>Your prediction</th>
+      <th>Final score</th>
       <th>Team Home</th>
       <th>Team Away</th>
      <th>Time</th>
@@ -17,14 +18,19 @@
     </tr>
     {%for bet in bets %}
     <tr>
-      <th>{{bet['fixture_id']}}</th>
+      <th hidden>{{bet['fixture_id']}}</th>
       <th>{{bet['guess_score']}}</th>
+      {% if bet["final_score"] %}
+      <th>{{bet["final_score"]}}</th>
+      {% else %}
+      <th>To be defined</th>
+      {% endif %}
       <th>{{bet['homeTeam']}}</th>
       <th>{{bet['awayTeam']}}</th>
       <th>{{bet['event_date']}}</th>
 
     </tr>
-    {%endfor %}
+    {% endfor %}
   </table>
   <h5>You have {{points}} points.</h5>
 {% endblock %}
