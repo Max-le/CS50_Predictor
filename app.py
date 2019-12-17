@@ -70,6 +70,7 @@ def update_database():
 def mybets():
     u_id = session["user_id"]
     bets = db.execute("SELECT * FROM bets WHERE user_id=:user_id", user_id=u_id)
+    update_final_scores()
     assign_user_score(u_id, calculate_score(u_id))
     if not bytes:
         return apology('Something went wrong with the SQL query.')
