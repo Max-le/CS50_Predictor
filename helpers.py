@@ -99,6 +99,11 @@ def parse_scores(scores: str) -> list:
     l.append(int(scores[0]))
     l.append(int(scores[len(scores) - 1]))
     return l
+
+def prettier_time(time: str) -> str:
+    '''Returns a time formatted as : 1 Jan 2020 @ 00:00'''
+    time_o = datetime.strptime(time, "%Y-%m-%dT%H:%M:%S%z")
+    return time_o.strftime("%d %b %Y @ %H:%M")
 def assign_user_score(user_id: int, points: int):
     '''Write the score ('points') for a user_id in User table'''
     result = db.execute("UPDATE users SET points=:points WHERE id=:u_id", points=points, u_id=user_id)

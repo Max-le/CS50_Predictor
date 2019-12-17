@@ -1,13 +1,13 @@
 import unittest
 from helpers import * 
 
-
 class MyTest(unittest.TestCase):
     def test(self):
         self.assertTrue(True)
     def test_updatefunction(self):
         self.assertEqual(update_final_scores(), 0)
     def test_get_event_date(self):
+
         # valid ID : 182801
         self.assertEqual(type(get_event_date(182801)), type("")) 
     def test_parse_score(self):
@@ -21,6 +21,7 @@ class MyTest(unittest.TestCase):
     def test_update_user_real_score(self):
         self.assertEqual(assign_user_score(4, calculate_score(4)), 0)
 
-        
+    def test_prettier_time(self):
+        self.assertEqual( prettier_time("2019-12-19T18:50:00+01:00") ,"19 Dec 2019 @ 18:50")
 
         

@@ -79,6 +79,7 @@ def mybets():
         bet["homeTeam"] = home_team_name(id)
         bet["awayTeam"] = away_team_name(id)
         bet["event_date"] = get_event_date(id)
+        bet["event_date"] = bet["event_date"].strftime("%d %b %Y @ %H:%M")
     
     return render_template("mybets.html", bets=bets, points=get_user_points(u_id))
 @app.route("/past_fixtures")
