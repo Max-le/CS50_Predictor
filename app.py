@@ -51,7 +51,7 @@ def index():
         date_event = datetime.datetime.strptime(f['event_date'], "%Y-%m-%dT%H:%M:%S%z")
         #filter out past fixtures
         if date_event.replace(tzinfo=None) > datetime.datetime.today():
-            f['event_date'] = date_event.strftime("%d %b %Y @ %H:%M")#Formats date for better displaying
+            f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
             upcoming_fixtures.append(f)
     return render_template("/index.html", fixtures=upcoming_fixtures)
 
@@ -79,7 +79,7 @@ def mybets():
         bet["homeTeam"] = home_team_name(id)
         bet["awayTeam"] = away_team_name(id)
         bet["event_date"] = get_event_date(id)
-        bet["event_date"] = bet["event_date"].strftime("%d %b %Y @ %H:%M")
+        bet["event_date"] = prettier_time(bet["event_date"])
     
     return render_template("mybets.html", bets=bets, points=get_user_points(u_id))
 @app.route("/past_fixtures")
