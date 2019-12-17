@@ -1,5 +1,7 @@
 import unittest
 from helpers import * 
+
+
 class MyTest(unittest.TestCase):
     def test(self):
         self.assertTrue(True)
@@ -14,5 +16,11 @@ class MyTest(unittest.TestCase):
         self.assertEqual( parse_scores("4 - 0")[1], 0)
     def test_calculcate_score(self):
         self.assertEqual(type(calculate_score(4)), type(2)) 
+    def test_update_user_score(self):
+        self.assertEqual(assign_user_score(4, 10), 0)
+    def test_update_user_real_score(self):
+        self.assertEqual(assign_user_score(4, calculate_score(4)), 0)
+
+        
 
         

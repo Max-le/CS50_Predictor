@@ -99,6 +99,14 @@ def parse_scores(scores: str) -> list:
     l.append(int(scores[0]))
     l.append(int(scores[len(scores) - 1]))
     return l
+def assign_user_score(user_id: int, points: int):
+    '''Write the score ('points') for a user_id in User table'''
+    result = db.execute("UPDATE users SET points=:points WHERE id=:u_id", points=points, u_id=user_id)
+    if not result:
+        return 1
+    return 0 
+
+
 def calculate_score(user_id: int) -> int:
     '''returns the total score of a user from its ID'''
     bets = db.execute("SELECT * FROM bets WHERE user_id=:id", id = user_id)
@@ -131,13 +139,22 @@ def update_final_scores():
     #Get all fixtures existing in Bets table 
     bets = db.execute("SELECT fixture_id FROM bets")
     for bet in bets: 
-        fixture = db.execute("SELECT status, score FROM fixtures WHERE fixture_id=:id", id=bet["fixture_id"])
-        match_status = fixture[0]["status"]
-        if match_status == "Match Finished":
-            update_result = db.execute("UPDATE bets SET final_score = :score, match_finished='True' WHERE fixture_id = :id ;")
-            return 0 
-
+        fixture = db.execute("SELECT status, score FROM fixtures WHERE fixture_id=:id AND status=\"Match Finished\" ;", id=bet["fixture_id"])
+        if fixture:  
+            score_json = json.loads(fixture[0]["score"])         
+            final_score =score_json["fulltime"]
+            if final_score == None: 
+                final_score = fixture[0]["score"]["extratime"]
+                if final_score == None:
+                    final_score = fixture[0]["score"]["penalty"]
+                    if final_score == None:
+                        raise Exception('Error : couldn\'t get the final score of this fixture. Maybe match is not finished yet.')
+            update_result = db.execute("UPDATE bets SET final_score = :score, match_finished='True' WHERE fixture_id = :id ;",\
+                    id = bet['fixture_id'], score = final_score  )
+            count+=1
     return 0 
+        
+        
 
 
 
