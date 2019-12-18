@@ -8,10 +8,11 @@ from datetime import datetime, timedelta
 
 db = SQL("sqlite:///predictor.db")
 
+ ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
 
 def update_fixtures_database(League_ID: int):
     '''Performs an API Call and update Fixtures database accordingly'''
-    response_data = get_fixtures_league(League_ID).json() ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
+    response_data = get_fixtures_league(League_ID).json()
     fixtures = response_data["api"]["fixtures"]
     if not fixtures: 
         print("NO DATA FOUND.")
