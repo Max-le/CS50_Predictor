@@ -11,7 +11,7 @@ db = SQL("sqlite:///predictor.db")
 
 def update_fixtures_database():
     '''Performs an API Call and update Fixtures database accordingly'''
-    response_data = get_fixtures_league(754).json() ##754= Current Bundesliga, 656=Current Pro League
+    response_data = get_fixtures_league(525).json() ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
     fixtures = response_data["api"]["fixtures"]
     if not fixtures: 
         print("NO DATA FOUND.")
