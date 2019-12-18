@@ -17,9 +17,11 @@ class MyTest(unittest.TestCase):
     def test_calculcate_score(self):
         self.assertEqual(type(calculate_score(4)), type(2)) 
     def test_update_user_score(self):
-        self.assertEqual(assign_user_score(4, 10), 0)
+        #Be careful to user an existing user id
+        self.assertEqual(assign_user_score(6, 10), 0)
     def test_update_user_real_score(self):
-        self.assertEqual(assign_user_score(4, calculate_score(4)), 0)
+        #Be careful to user an existing user id
+        self.assertEqual(assign_user_score(6, calculate_score(4)), 0)
 
     def test_prettier_time(self):
         self.assertEqual( prettier_time("2019-12-19T18:50:00+01:00") ,"19 Dec 2019 @ 18:50")

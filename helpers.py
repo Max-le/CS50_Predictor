@@ -119,9 +119,9 @@ def get_user_points(user_id: int):
 def calculate_score(user_id: int) -> int:
     '''returns the total score of a user from its ID'''
     bets = db.execute("SELECT * FROM bets WHERE user_id=:id", id = user_id)
-    if not bets : 
-        raise Exception(f"Error with query to Bets table using user_id =  {user_id} ")
     points = 0 
+    if not bets : 
+        return 0
     for bet in bets:
         if bet["final_score"] != None :
             guess = parse_scores(bet["guess_score"])
