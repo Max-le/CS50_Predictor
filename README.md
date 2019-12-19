@@ -6,7 +6,7 @@
 
  This is my final project for the online course CS50's Introduction to Computer Science.
  This is basically like a betting website, but instead of betting ( and losing ) your money, you just earn points for correct decisions.
- as the CS50 Finance assignement, the project uses the web-framework [Flask](https://www.palletsprojects.com/p/flask/). 
+ As the CS50 Finance assignement, the project uses the web-framework [Flask](https://www.palletsprojects.com/p/flask/). 
 
 Data used on this project is provided [API-Football.com](https://www.api-football.com/documentation).
 
