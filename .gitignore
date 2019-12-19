@@ -1,10 +1,5 @@
 .DS_Store
 predictor.db
 .vscode/*
-__pycache__/app.cpython-37.pyc
-__pycache__/exceptions.cpython-37.pyc
-__pycache__/helpers_test.cpython-37.pyc
-__pycache__/helpers.cpython-37.pyc
-__pycache__/test.cpython-37.pyc
-
-__pycache__/app_test.cpython-37.pyc
+__pycache__/*
+APIKey.txt
