@@ -1,0 +1,45 @@
+{
+    "api": {
+        "results": 380,
+        "fixtures": [
+            {
+                "fixture_id": 65,
+                "league_id": 2,
+                "league": {
+                    "name": "Premier League",
+                    "country": "England",
+                    "logo": "https://media.api-football.com/leagues/2.png",
+                    "flag": "https://media.api-football.com/flags/gb.svg"
+                },
+                "event_date": "2018-08-10T19:00:00+00:00",
+                "event_timestamp": 1533927600,
+                "firstHalfStart": 1533927600,
+                "secondHalfStart": 1533931200,
+                "round": "Regular Season - 1",
+                "status": "Match Finished",
+                "statusShort": "FT",
+                "elapsed": 90,
+                "venue": "Old Trafford (Manchester)",
+                "referee": null,
+                "homeTeam": {
+                    "team_id": 33,
+                    "team_name": "Manchester United",
+                    "logo": "https://media.api-football.com/teams/33.png"
+                },
+                "awayTeam": {
+                    "team_id": 46,
+                    "team_name": "Leicester",
+                    "logo": "https://media.api-football.com/teams/46.png"
+                },
+                "goalsHomeTeam": 2,
+                "goalsAwayTeam": 1,
+                "score": {
+                    "halftime": "1-0",
+                    "fulltime": "2-1",
+                    "extratime": null,
+                    "penalty": null
+                }
+            }
+        ]
+    }
+}
