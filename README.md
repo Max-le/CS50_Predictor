@@ -34,7 +34,6 @@ The database are refreshed every 30 minutes.
 
 ## Installation
 
-### Requirements 
 
 You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an **API key**. ( basic account is free ).
   The code reads the API key from a external file named "api.key", so : 
