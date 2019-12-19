@@ -15,10 +15,10 @@ Data used on this project is provided [API-Football.com](https://www.api-footbal
 #### Technical aspects : 
 I didn't change much the file organization of this project from CS50 Finance : 
 - app.py is the "main" code : it is executed when running `flask run`. It contains all the routes and thus handles HTTP requests. 
-- HTML Pages are in /templates folder. 
+- HTML Pages are in /templates folder. CSS and favicon.ico are in /static folder. 
 - helpers.py holds functions that I wanted to externalize from app.py and functions already written by CS50 ( like the meme apology ).
-- I created helpers_test.py to test several important functions. ( unittest library )
-- 
+- I created helpers_test.py to test several important functions. ( unittest library ) 
+- I published a diagram that I used as a blueprint for the architecture of the code. [Check it out if you want](https://www.draw.io/?lightbox=1&highlight=0000ff&nav=1&title=Predictor%20Architecture.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1dYA1t9bzluw2TpN6wMd3xZD8H4PFihyt%26export%3Ddownload).
 
 ### Features
 
@@ -35,7 +35,14 @@ The database are refreshed every 30 minutes.
 ## Installation
 
 ### Requirements 
-You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an API key. 
+
+1. You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an **API key**. ( basic account is free ).
+  The code reads the API key from a external file named "api.key", so : 
+  1. Once you managed to get your key, create a file named "api.key" ( .key is the extension ). You can type 
+
+  `touch api.key`
+
+  2. Open the file and paste your key in the file, just plain text, no quote. 
 
 
 1. You need Python on your machine to work in this project : [Get Python](https://www.python.org/downloads/). ( I was using Python 3, not sure if it is important to use v.3 instead of v.2 )
