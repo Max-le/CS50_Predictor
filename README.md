@@ -34,6 +34,9 @@ The database are refreshed every 30 minutes.
 
 ## Installation
 
+### Requirements 
+You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an API key. 
+
 
 1. You need Python on your machine to work in this project : [Get Python](https://www.python.org/downloads/). ( I was using Python 3, not sure if it is important to use v.3 instead of v.2 )
 2. CS50's library is used for this project ( for connecting with the database ), with addition to what you'll need Install it by typing in terminal : 
@@ -64,7 +67,15 @@ The database are refreshed every 30 minutes.
 
 
 ## Usage
-You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an API key. 
+Type 
+
+` flask run `
+
+ on a terminal window,  it will execute app.py and start the server.
+To make the server visible on all local network : 
+
+```flask run --host=0.0.0.0```
+
 
 
 ## Roadmap
