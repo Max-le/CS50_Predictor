@@ -53,7 +53,7 @@ def index():
 @app.route('/update_database')  
 @login_required
 def update_database():
-    result = update_fixtures_database()
+    result = update_fixtures_database(656)
     update_final_scores()
     return f"{result} fields updated."
 
