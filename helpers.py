@@ -139,10 +139,6 @@ def calculate_score(user_id: int) -> int:
                 points+=0
     return points
 
-                
-
-
-    return points
 def update_final_scores():
     '''Updates the final_score field in Bets table from Fixtures table'''
     count = 0
@@ -163,12 +159,6 @@ def update_final_scores():
                     id = bet['fixture_id'], score = final_score  )
             count+=1
     return 0 
-        
-        
-
-
-
-    
 
 def apology(message, code=400):
     """Render message as an apology to user."""
@@ -198,29 +188,3 @@ def login_required(f):
     return decorated_function
 
 
-def lookup(symbol):
-    """Look up quote for symbol."""
-
-    # Contact API
-    try:
-        api_key = os.environ.get("API_KEY")
-        response = requests.get(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
-        response.raise_for_status()
-    except requests.RequestException:
-        return None
-
-    # Parse response
-    try:
-        quote = response.json()
-        return {
-            "name": quote["companyName"],
-            "price": float(quote["latestPrice"]),
-            "symbol": quote["symbol"]
-        }
-    except (KeyError, TypeError, ValueError):
-        return None
-
-
-def usd(value):
-    """Format value as USD."""
-    return f"${value:,.2f}"
