@@ -47,13 +47,9 @@ Open the file and paste your key in the file, just plain text, no quote.
 
 
 1. You need Python on your machine to work in this project : [Get Python](https://www.python.org/downloads/). ( I was using Python 3, not sure if it is important to use v.3 instead of v.2 )
-2. CS50's library is used for this project ( for connecting with the database ), with addition to what you'll need Install it by typing in terminal : 
+2. Install Flask. CS50's library is also used for this project ( for connecting with the database ). Install it all by typing in terminal : 
 
-  `pip3 install CS50`
-* cs50
-* Flask
-* Flask-Session
-* requests
+  `pip3 install CS50 Flask Flask-session requests`
 
   
 3. The database is not included on this repository : you need to create one.
@@ -78,6 +74,8 @@ Open the file and paste your key in the file, just plain text, no quote.
 
     `.read init_db.sql`
 
+    Press <kbd>Control</kbd> + <kbd>D</kbd> to exit Sqlite. 
+
 
 ## Usage
 Type 
@@ -89,7 +87,14 @@ To make the server visible on all local network :
 
 ```flask run --host=0.0.0.0```
 
+Port 5000 by default, so access in web browser locally using : 
 
+http://localhost:5000/
+
+Create an account on http://localhost:5000/register. 
+
+The first time you run the server, you may see an empty table on the home page. You then need to update the database manually. 
+Go just to http://localhost:5000/update_database
 
 ## Roadmap
 Ideas for further development of the project :
@@ -97,3 +102,4 @@ Ideas for further development of the project :
 * More standard registration : require email adress and minimum complexity for password. 
 * More social : compare your total score and predictions with your friends.
   * Invite friends to join ( send email )
+  * Create parties and rank users. 
