@@ -12,6 +12,12 @@
 
 Data used on this project is provided [API-Football.com](https://www.api-football.com/documentation).
 
+#### Technical aspects : 
+I didn't change much the file organization of this project from CS50 Finance : 
+- app.py is the "main" code : it is executed when running `flask run`. It contains all the routes and thus handles HTTP requests. 
+- helpers.py holds functions that I wanted to externalize from app.py and functions already written by CS50 ( like the meme apology ).
+-
+
 ### Features
 
 * Place a bet on a upcoming fixture : try to guess the final score of the match.
@@ -27,7 +33,6 @@ The database are refreshed every 30 minutes.
 ## Installation
 
 
-### Prerequisites
 1. You need Python on your machine to work in this project : [Get Python](https://www.python.org/downloads/). ( I was using Python 3, not sure if it is important to use v.3 instead of v.2 )
 2. CS50's library is used for this project. Install it by typing in terminal : 
 
@@ -37,9 +42,12 @@ The database are refreshed every 30 minutes.
     1. The database system is SQLite3. Make sure it is installed on your machine. 
     Type `touch predictor.db` in Terminal on root directory of the project.
 
-    The database's name has to be "predictor.db". ( You can change that, but then you'll also need to edit the source code )
+    The database's name has to be "predictor.db". ( You can change that, but then you'll also need to edit the source code ).
+
     2. The database has three tables : Fixtures ( list all the events ), Bets ( all users predictions), and Users ( list of all users registered )
     The instructions to create thoses tables are provided in the "init_db.sql" file, so you can run it : 
+
+    Type in terminal : 
     
     `sqlite3 predictor.db`
     
@@ -48,6 +56,8 @@ The database are refreshed every 30 minutes.
     `.read init_db.sql`
 
 
+## Usage
+You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an API key. 
 
 
 ## Roadmap
