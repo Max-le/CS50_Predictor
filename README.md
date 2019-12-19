@@ -95,7 +95,7 @@ http://localhost:5000/
 Create an account on http://localhost:5000/register. 
 
 The first time you run the server, you may see an empty table on the home page. You then need to update the database manually. 
-Go just to http://localhost:5000/update_database
+Go just to http://localhost:5000/update_database ( careful though, this triggers an API call )
 
 ## Roadmap
 Ideas for further development of the project :
