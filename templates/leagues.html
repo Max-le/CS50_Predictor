@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+<table style="width:100%">
+  <tr> 
+
+    <th>Name</th>
+    <th>Country</th>
+    <th>Beginning season</th>
+    <th>End season</th>
+    <th>Flag</th>
+
+  </tr>
+  {%for l in leagues %}
+  <tr>
+    <th>{{l['name']}}</th>
+    <th>{{l['country']}}</th>
+    <th>{{l['season_start']}}</th>
+    <th>{{l['season_end']}}</th>
+    <th><img src="{{l['logo']}}" alt=" Logo "></th>
+
+
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

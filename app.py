@@ -47,8 +47,15 @@ def index():
         f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
     return render_template("/index.html", fixtures=fixtures)
 
+@app.route('/leagues')  
+def leagues():
+    f = open("models/leagues.json", "r")
+    leagues = json.loads(f.read())
+    return render_template("leagues.html", leagues=leagues['api']['leagues'])
+
+
 @app.route('/update_database')  
-@login_required
+@login_required   
 def update_database():
     result = update_fixtures_database(656)
     update_final_scores()
