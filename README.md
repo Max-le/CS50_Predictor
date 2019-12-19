@@ -73,7 +73,7 @@ Open the file and paste your key in the file, just plain text, no quote.
 
     `.read init_db.sql`
 
-    Press <kbd>Control</kbd> + <kbd>D</kbd> to exit Sqlite. 
+    Press <kbd>Ctrl</kbd> + <kbd>D</kbd> to exit Sqlite. 
 
 
 ## Usage
