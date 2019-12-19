@@ -77,6 +77,8 @@ Open the file and paste your key in the file, just plain text, no quote.
 
 
 ## Usage
+Once everyting's installed : 
+
 Type 
 
 ` flask run `
