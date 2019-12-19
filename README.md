@@ -36,13 +36,14 @@ The database are refreshed every 30 minutes.
 
 ### Requirements 
 
-1. You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an **API key**. ( basic account is free ).
+You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an **API key**. ( basic account is free ).
   The code reads the API key from a external file named "api.key", so : 
-  1. Once you managed to get your key, create a file named "api.key" ( .key is the extension ). You can type 
+
+  Once you managed to get your key, create a file named "api.key" ( .key is the extension ). You can type 
 
   `touch api.key`
 
-  2. Open the file and paste your key in the file, just plain text, no quote. 
+Open the file and paste your key in the file, just plain text, no quote. 
 
 
 1. You need Python on your machine to work in this project : [Get Python](https://www.python.org/downloads/). ( I was using Python 3, not sure if it is important to use v.3 instead of v.2 )
@@ -56,12 +57,17 @@ The database are refreshed every 30 minutes.
 
   
 3. The database is not included on this repository : you need to create one.
-    1. The database system is SQLite3. Make sure it is installed on your machine. 
-    Type `touch predictor.db` in Terminal on root directory of the project.
+    The database system is SQLite3. Make sure it is installed on your machine. 
+
+    Type 
+    
+    `touch predictor.db` 
+    
+     Terminal on root directory of the project.
 
     The database's name has to be "predictor.db". ( You can change that, but then you'll also need to edit the source code ).
 
-    2. The database has three tables : Fixtures ( list all the events ), Bets ( all users predictions), and Users ( list of all users registered )
+    The database has three tables : Fixtures ( list all the events ), Bets ( all users predictions), and Users ( list of all users registered )
     The instructions to create thoses tables are provided in the "init_db.sql" file, so you can run it : 
 
     Type in terminal : 
