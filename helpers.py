@@ -7,7 +7,12 @@ from functools import wraps
 from datetime import datetime, timedelta
 
 db = SQL("sqlite:///predictor.db")
-
+f = open('api.key', "r")
+if f.mode =='r': 
+    API_KEY = f.read()
+    print(API_KEY  )
+else: 
+    raise FileNotFoundError
  ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
 
 def update_fixtures_database(League_ID: int):
@@ -80,7 +85,7 @@ def get_fixtures_league(league_id):
     ''''Makes an API call to get all knowns fixtures on the league '''
     response = requests.get(
         f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{league_id}?timezone=Europe/Paris",
-        headers={'X-RapidAPI-Key': '8e33daace6msh8340cfb73cef51ep140be9jsn36c8f3ff8135'}
+        headers={'X-RapidAPI-Key': API_KEY}
     )
     print(f"{response.headers['X-RateLimit-requests-Remaining']} / {response.headers['X-RateLimit-requests-Limit']} API calls remaining for today." )
     return response
