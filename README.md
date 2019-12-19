@@ -42,8 +42,9 @@ The database are refreshed every 30 minutes.
     The instructions to create thoses tables are provided in the "init_db.sql" file, so you can run it : 
     
     `sqlite3 predictor.db`
-    Then
     
+    Then
+
     `.read init_db.sql`
 
 
