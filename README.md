@@ -15,8 +15,10 @@ Data used on this project is provided [API-Football.com](https://www.api-footbal
 #### Technical aspects : 
 I didn't change much the file organization of this project from CS50 Finance : 
 - app.py is the "main" code : it is executed when running `flask run`. It contains all the routes and thus handles HTTP requests. 
+- HTML Pages are in /templates folder. 
 - helpers.py holds functions that I wanted to externalize from app.py and functions already written by CS50 ( like the meme apology ).
--
+- I created helpers_test.py to test several important functions. ( unittest library )
+- 
 
 ### Features
 
@@ -34,9 +36,14 @@ The database are refreshed every 30 minutes.
 
 
 1. You need Python on your machine to work in this project : [Get Python](https://www.python.org/downloads/). ( I was using Python 3, not sure if it is important to use v.3 instead of v.2 )
-2. CS50's library is used for this project. Install it by typing in terminal : 
+2. CS50's library is used for this project ( for connecting with the database ), with addition to what you'll need Install it by typing in terminal : 
 
   `pip3 install CS50`
+* cs50
+* Flask
+* Flask-Session
+* requests
+
   
 3. The database is not included on this repository : you need to create one.
     1. The database system is SQLite3. Make sure it is installed on your machine. 
@@ -64,4 +71,5 @@ You need an account on [API-Football.com](https://www.api-football.com/documenta
 Ideas for further development of the project :
 
 * More standard registration : require email adress and minimum complexity for password. 
-* More social predictions : compare your total score and predictions with your friends.
+* More social : compare your total score and predictions with your friends.
+  * Invite friends to join ( send email )
