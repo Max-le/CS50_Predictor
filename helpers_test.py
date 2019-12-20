@@ -27,4 +27,4 @@ class MyTest(unittest.TestCase):
         self.assertEqual( prettier_time("2019-12-19T18:50:00+01:00") ,"19 Dec 2019 @ 18:50")
 
     def test_get_league_logo(self):
-        self.assertEqual(get_logo(656), type(" "))
+        self.assertEqual(type(get_logo(656)), type(" "))
