@@ -29,4 +29,6 @@ CREATE TABLE users (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 username varchar(255) UNIQUE, 
 hash varchar(255)  ,
-points INTEGER, hash TEXT);
+points INTEGER,
+hash TEXT, 
+choice_league INTEGER);
