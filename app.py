@@ -54,10 +54,15 @@ def leagues():
     return render_template("leagues.html", leagues=leagues['api']['leagues'])
 
 
-@app.route('/update_database')  
+@app.route('/update_fixtures', methods=['GET'])  
 @login_required   
 def update_database():
-    result = update_fixtures_database(656)
+    '''Update all fixtures of the league with the provided id.'''
+    league_id = request.args.get('id')
+    if not league_id :
+        return "Please provide a league ID as URL string parameter."
+    print('Updating fixtures table in database : adding league ', league_id)
+    result = update_fixtures_database(league_id)
     update_final_scores()
     return f"{result} fields updated."
 
