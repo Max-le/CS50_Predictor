@@ -7,8 +7,7 @@ class MyTest(unittest.TestCase):
     def test_updatefunction(self):
         self.assertEqual(update_final_scores(), 0)
     def test_get_event_date(self):
-
-        # valid ID : 182801
+        # Provide here a valid fixture ID
         self.assertEqual(type(get_event_date(182801)), type("")) 
     def test_parse_score(self):
         #should return a list containing two integers

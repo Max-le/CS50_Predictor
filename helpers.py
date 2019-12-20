@@ -56,8 +56,8 @@ def update_fixtures_database(League_ID: int):
 
 def get_logo(league_id: int):
     '''returns the URL to an image representing the logo of the league\nThis function looks up on local file leagues.json.'''
-    f = open('leagues.json', 'r')
-    leagues = json.loads(f)['api']['results']
+    f = open('models/leagues.json', 'r')
+    leagues = json.loads(f.read())['api']['leagues']
     for l in leagues: 
         if l['league_id'] == league_id:
             return l['logo']
