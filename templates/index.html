@@ -17,7 +17,6 @@
     <th scope='col'>Venue</th>
     <th scope='col'>Team Home</th> 
     <th scope='col'>Team Away</th>
-    <th scope='col'>Fixture ID</th>
     <th scope='col'>Action</th>
   </tr>
   </thead>
@@ -27,7 +26,6 @@
     <th>{{ fixture["venue"] }}</th>
     <th>{{ fixture["homeTeam"] }}</th>
     <th>{{ fixture["awayTeam"] }}</th>
-    <th>{{fixture["fixture_id"]}}</th>
     <th>
       <form action="/placebet" method="post" id="form_bet{{fixture['fixture_id']}}">
         <input hidden='true' name="id" value="{{fixture['fixture_id']}}"/>
