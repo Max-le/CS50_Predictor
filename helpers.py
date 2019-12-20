@@ -60,13 +60,10 @@ def get_logo(league_id: int):
     f = open('leagues.json', 'r')
     leagues = json.loads(f)['api']['results']
     for l in leagues: 
-        if l['league_id'] = league_id:
+        if l['league_id'] == league_id:
             return l['logo']
     print("Couldn't find logo for league ", league_id)
     return 1 
-
-with open('data.txt') as json_file:
-    data = json.load(json_file)
 
 def local_fixture_data(fixture_id):
     result = db.execute("SELECT * FROM fixtures WHERE fixture_id=:id", id=fixture_id)
