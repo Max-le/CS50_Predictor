@@ -3,33 +3,6 @@
         "results": 402,
         "leagues": [
             {
-                "league_id": 194,
-                "name": "Africa Cup of Nations",
-                "type": "Cup",
-                "country": "World",
-                "country_code": null,
-                "season": 2019,
-                "season_start": "2017-03-22",
-                "season_end": "2019-07-19",
-                "logo": "https://media.api-football.com/leagues/194.png",
-                "flag": null,
-                "standings": 1,
-                "is_current": 1,
-                "coverage": {
-                    "standings": true,
-                    "fixtures": {
-                        "events": true,
-                        "lineups": true,
-                        "statistics": true,
-                        "players_statistics": true
-                    },
-                    "players": true,
-                    "topScorers": true,
-                    "predictions": true,
-                    "odds": false
-                }
-            },
-            {
                 "league_id": 195,
                 "name": "Asian Cup",
                 "type": "Cup",
