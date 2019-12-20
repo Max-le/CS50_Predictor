@@ -9,9 +9,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import *
 import datetime
 import requests
+from apscheduler.schedulers.background import BackgroundScheduler
+
+
 # Configure application
 app = Flask(__name__)
 
+scheduler = BackgroundScheduler()
+scheduler.add_job(sayHello, trigger='interval', minutes=30)
+scheduler.start()
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
@@ -32,8 +38,6 @@ Session(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///predictor.db")
-
-
 
 @app.route("/")
 @login_required
