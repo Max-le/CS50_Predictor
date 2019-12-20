@@ -66,7 +66,12 @@ def leagues():
 def choose_your_league():
     if request.method == 'POST':
         choice = request.form.get("l_choice")
-        return f" Your choice : {choice}"
+        ##Save choice in db and in session
+        session['l_choice'] = choice
+        result = db.execute("UPDATE users SET choice_league=:choice WHERE id=:u_id ", choice=choice, u_id=session['user_id'])
+        if not result: 
+            return f"Error : couldn't save choice in database for user {session['user_id']} "
+        return f" Your choice : {choice} was saved !"
     elif request.method == 'GET':
         ##Loads leagues from json
         f = open('models/leagues.json', 'r')
