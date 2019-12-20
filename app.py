@@ -14,9 +14,12 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 # Configure application
 app = Flask(__name__)
+def update_job():
+    '''This function is called on regular intervals by the BackgroundScheduler'''
+    
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(sayHello, trigger='interval', minutes=30)
+scheduler.add_job(update_job, trigger='interval', minutes=30)
 scheduler.start()
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
