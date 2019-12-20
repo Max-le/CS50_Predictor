@@ -12,7 +12,7 @@ import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-LEAGUES_AVAILABLE = [525, 754, 514, 656]
+LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
 
 # Configure application
 app = Flask(__name__)
@@ -65,7 +65,8 @@ def leagues():
 @login_required
 def choose_your_league():
     if request.method == 'POST':
-        return 0 
+        choice = request.form.get("l_choice")
+        return f" Your choice : {choice}"
     elif request.method == 'GET':
         ##Loads leagues from json
         f = open('models/leagues.json', 'r')

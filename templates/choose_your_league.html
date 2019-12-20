@@ -8,14 +8,15 @@
 <h1>Welcome to Predictor ⚽️ ! </h1> <br>
 
 <h3>Choose one football league that you are interested in.</h3>
-<form name='league_choice'>
 
-    <select name="league">
+<form action="/choose_your_league" method="POST">
+    <div class="form-group"></div>
+    <select class="form-control" name="l_choice">
         {% for l in leagues %}
-        <option value="{{l['league_id']}}">{{l['name']}} ( {{l['country']}} ) </option>
+        <option value="{{l['league_id']}}">{{l['name']}} ( <i>{{l['country']}}</i> ) </option>
         {% endfor %}
-
     </select>
+    <button class="btn-primary">Save my choice</button>
 </form>
 
 {% endblock %}
