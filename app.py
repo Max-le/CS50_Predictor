@@ -12,12 +12,12 @@ import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
+LEAGUES_AVAILABLE = [525, 754, 514, 656]
+
 # Configure application
 app = Flask(__name__)
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
-    
-
 scheduler = BackgroundScheduler()
 scheduler.add_job(update_job, trigger='interval', minutes=30)
 scheduler.start()
@@ -31,6 +31,7 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
+
 
 
 # Configure session to use filesystem (instead of signed cookies)
@@ -60,6 +61,21 @@ def leagues():
     leagues = json.loads(f.read())
     return render_template("leagues.html", leagues=leagues['api']['leagues'])
 
+@app.route('/choose_your_league', methods=['GET', 'POST'])
+@login_required
+def choose_your_league():
+    if request.method == 'POST':
+        return 0 
+    elif request.method == 'GET':
+        ##Loads leagues from json
+        f = open('models/leagues.json', 'r')
+        leagues = json.loads(f.read())['api']['leagues']
+        n_leagues = []
+        for l in leagues: 
+            if l['league_id'] in LEAGUES_AVAILABLE:
+                n_leagues.append(l)
+        return render_template("choose_your_league.html", leagues=n_leagues)
+    return 0 
 
 @app.route('/update_fixtures', methods=['GET'])  
 @login_required   

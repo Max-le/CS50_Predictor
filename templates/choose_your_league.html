@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Choose a league
+{% endblock %}
+
+{% block main %}
+<h1>Welcome to Predictor ⚽️ ! </h1> <br>
+
+<h3>Choose one football league that you are interested in.</h3>
+<form name='league_choice'>
+
+    <select name="league">
+        {% for l in leagues %}
+        <option value="{{l['league_id']}}">{{l['name']}} ( {{l['country']}} ) </option>
+        {% endfor %}
+
+    </select>
+</form>
+
+{% endblock %}
