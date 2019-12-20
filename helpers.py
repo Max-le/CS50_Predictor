@@ -10,7 +10,6 @@ db = SQL("sqlite:///predictor.db")
 f = open('api.key', "r")
 if f.mode =='r': 
     API_KEY = f.read()
-    print(API_KEY  )
 else: 
     raise FileNotFoundError
  ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
