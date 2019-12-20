@@ -104,3 +104,4 @@ Ideas for further development of the project :
 * More social : compare your total score and predictions with your friends.
   * Invite friends to join ( send email )
   * Create parties and rank users. 
+* Ability to switch leagues
