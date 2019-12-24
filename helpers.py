@@ -12,7 +12,6 @@ if f.mode =='r':
     API_KEY = f.read()
 else: 
     raise FileNotFoundError
- ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
 
 def update_fixtures_database(League_ID: int):
     '''Performs an API Call and update Fixtures database accordingly'''
