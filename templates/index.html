@@ -23,6 +23,17 @@ Upcoming matches in Bundesliga
       {{fixture['awayTeam']}}
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-sm">
+      <span style="font-size: 70%;">
+        {{fixture['event_date']}}
+      {% if fixture["venue"] != None %}
+      <br>  ( {{fixture['venue']}} ) 
+      {% endif %}
+      </span>
+    </div>
+  </div>
   <div class="row">
     <div class="col-sm">
       <form action="/placebet" method="post" id="form_bet{{fixture['fixture_id']}}">
@@ -30,7 +41,6 @@ Upcoming matches in Bundesliga
       </form >
       <button class="btn btn-success" type="submit" form="form_bet{{fixture['fixture_id']}}">Place bet</button>
     </div>
-    
   </div>
 </div>
 {% endfor %}
