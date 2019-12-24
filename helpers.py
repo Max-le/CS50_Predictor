@@ -72,7 +72,7 @@ def local_fixture_data(fixture_id):
 def home_team_name(fixture_id):
     f = local_fixture_data(fixture_id)
     if not f:
-        raise Exception(f"Fixture {fixture_id} couldn't be found in the databse Fixtures.")
+        raise Exception(f"Fixture {fixture_id} couldn't be found in the database Fixtures.")
     return json.loads(f["homeTeam"])["team_name"]
 def get_event_date(fixture_id):
     '''gets the event of a fixture from its ID.'''
