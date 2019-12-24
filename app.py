@@ -55,6 +55,7 @@ def index():
     now = datetime.datetime.strftime(datetime.datetime.today(), "%Y-%m-%dT%H:%M:%S%z")
     fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures WHERE event_date>:now ORDER BY event_date LIMIT 10 ", now=now)    
     for f in fixtures: 
+        place_teams_logo(f)
         replace_teams_names(f) 
         f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
     return render_template("/index.html", fixtures=fixtures)

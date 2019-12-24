@@ -102,10 +102,15 @@ def replace_teams_names(fixture):
     # containing only the name of the team instead of a JSON bundle. 
     teamH_name = json.loads(fixture["homeTeam"])["team_name"]
     teamA_name = json.loads(fixture["awayTeam"])["team_name"] 
-
-
     fixture["homeTeam"], fixture["awayTeam"] = teamH_name, teamA_name
     return 0 
+def place_teams_logo(fixture):
+    '''add an entry with the logo img url of the team.'''
+    teamH_logo = json.loads(fixture["homeTeam"])["logo"]
+    teamA_logo = json.loads(fixture["awayTeam"])["logo"] 
+    fixture["home_logo"], fixture["away_logo"] = teamH_logo, teamA_logo
+    return 0 
+
 
 def parse_scores(scores: str) -> list:
     '''Returns the score from string format '# - #' to list of two integers.'''
