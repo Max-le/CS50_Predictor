@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Upcoming matches in Bundesliga
+Upcoming matches in Bundesliga
 {% endblock %}
 
 {% block main %}
@@ -18,27 +18,24 @@
     </div>
     <div class="col-sm-2">
       <span>VS.</span>
-      {% if fixture["venue"] != None %}
-      <br> <span style="font-size: 70%;"> ( {{fixture['venue']}} ) </span>  
-      {% endif %}
     </div>
     <div class="col-sm">
       {{fixture['awayTeam']}}
     </div>
   </div>
-    <div class="row">
-<div class="col-sm">
-  <form action="/placebet" method="post" id="form_bet{{fixture['fixture_id']}}">
-    <input hidden='true' name="id" value="{{fixture['fixture_id']}}"/>
-  </form >
-  <button class="btn btn-success" type="submit" form="form_bet{{fixture['fixture_id']}}">Place bet</button>
+  <div class="row">
+    <div class="col-sm">
+      <form action="/placebet" method="post" id="form_bet{{fixture['fixture_id']}}">
+        <input hidden='true' name="id" value="{{fixture['fixture_id']}}"/>
+      </form >
+      <button class="btn btn-success" type="submit" form="form_bet{{fixture['fixture_id']}}">Place bet</button>
+    </div>
+    
+  </div>
+</div>
+{% endfor %}
 </div>
 
-    </div>
-  </div>
-  {% endfor %}
-</div>
-      
 
 
 </table>
