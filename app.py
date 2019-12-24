@@ -22,7 +22,6 @@ LEAGUES_AVAILABLE = [525, 754, 514, 656, 524] ##754= Current Bundesliga, 656=Cur
 app = Flask(__name__)
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
-    
     return 0 
 
 
@@ -93,7 +92,7 @@ def choose_your_league():
 
 @app.route('/update_fixtures', methods=['GET'])  
 @login_required   
-def update_database():
+def update_fixtures():
     '''Update all fixtures of the league with the provided id.'''
     league_id = request.args.get('id')
     if not league_id :
