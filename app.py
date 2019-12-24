@@ -165,7 +165,7 @@ def placebet():
         homeTeam_name = json.loads(result[0]["homeTeam"])["team_name"]
         venue = result[0]["venue"]
         fixture_id = result[0]["fixture_id"]
-        event_date = datetime.datetime.strptime(result[0]['event_date'], "%Y-%m-%dT%H:%M:%S%z")
+        event_date = prettier_time(result[0]['event_date'])
         return render_template("placebet.html", awayTeam_name=awayTeam_name, homeTeam_name=homeTeam_name,\
         venue=venue, event_date=event_date, fixture_id=fixture_id)
 

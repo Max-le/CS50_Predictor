@@ -21,7 +21,10 @@
   </div>
   <div class="row">
     <div class="col-sm">
-      Location : {{venue}}<br>
+      <span style="font-size: 70%;">
+      {% if venue != None %}
+      Stadium : {{venue}} <br> 
+      {% endif %}
       Match begins at {{event_date}}. <br>
 
     </div>
