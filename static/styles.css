@@ -36,3 +36,11 @@ table {
 table, th, td {
   border: 1px solid black;
 }
+
+.fixture-border{
+  border-style:solid;
+  border-color: #ef6464; 
+  border-radius: 60px;
+   margin-bottom: 10px;
+  
+}
