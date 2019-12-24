@@ -12,12 +12,20 @@ import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
+if __name__ == '__main__':
+    app.run(use_debugger=False, use_reloader=False, passthrough_errors=True)
+
+LEAGUES_AVAILABLE = [525, 754, 514, 656, 524] ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
+
 
 # Configure application
 app = Flask(__name__)
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
+    
+    return 0 
+
+
 scheduler = BackgroundScheduler()
 scheduler.add_job(update_job, trigger='interval', minutes=30)
 scheduler.start()
