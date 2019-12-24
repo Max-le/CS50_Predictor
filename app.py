@@ -12,9 +12,6 @@ import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-if __name__ == '__main__':
-    app.run(use_debugger=False, use_reloader=False, passthrough_errors=True)
-
 LEAGUES_AVAILABLE = [525, 754, 514, 656, 524] ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
 
 
