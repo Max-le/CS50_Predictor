@@ -1,15 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Upcoming matches in Bundesliga
+Home Page
 {% endblock %}
 
 {% block main %}
 <h1>Welcome to Predictor ⚽️ ! </h1> <br>
-<div id='league_info'>
+<div style="margin-bottom: 20px;" id='league_info'>
   <img id='league_logo' src="https://media.api-football.com/leagues/8.png" alt="League logo">
 </div>
-<h3>Upcoming matches</h3>
 {% for fixture in fixtures%}
 <div class="container" style="border-style:solid;border-color: #ef6464; border-radius: 60px; margin-bottom: 10px;" >
   <div class="row">
