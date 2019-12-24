@@ -11,7 +11,7 @@ Upcoming matches in Bundesliga
 </div>
 <h3>Upcoming matches</h3>
 {% for fixture in fixtures%}
-<div class="container" style="border-style:solid;border-width: 1px; margin-bottom: 10px;" >
+<div class="container" style="border-style:solid;border-color: #ef6464; border-radius: 60px; margin-bottom: 10px;" >
   <div class="row">
     <div class="col-sm">
       {{fixture["homeTeam"]}}
@@ -29,7 +29,7 @@ Upcoming matches in Bundesliga
       <span style="font-size: 70%;">
         {{fixture['event_date']}}
       {% if fixture["venue"] != None %}
-      <br>  ( {{fixture['venue']}} ) 
+      <br> Stadium : {{fixture['venue']}}
       {% endif %}
       </span>
     </div>
