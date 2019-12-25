@@ -10,9 +10,12 @@ from helpers import *
 import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
- 
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
 # Add a config key - format : (postgressql://username@localhost/database_name ) 
-app.config=["SQLALCHEMY_DATABASE_URI"] = 'postgressql://postgres123456@localhost/test1'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgressql://postgres123456@localhost/test1'
 
 # 754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
 LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
@@ -29,7 +32,7 @@ class Feedback(db.Model):
     dealer = db.Column(db.String(200))
     rating = db.Column(db.Integer)
     comments = db.Column(db.Text())
-    
+
     ##Constructor
     def __init__(self, customer, dealer, rating, comments):
         self.customer = customer
@@ -43,8 +46,6 @@ app = Flask(__name__)
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
     return 0 
-
-
 scheduler = BackgroundScheduler()
 scheduler.add_job(update_job, trigger='interval', minutes=30)
 scheduler.start()
@@ -98,7 +99,7 @@ def choose_your_league():
         session['l_choice'] = choice
         result = db.execute("UPDATE users SET choice_league=:choice WHERE id=:u_id ", choice=choice, u_id=session['user_id'])
         if not result: 
-            return f"Error : couldn't save choice in database for user {session['user_id']} "
+            return f"Error : couldn't save choice in database for user {session['user_id']}"
         return f" Your choice : {choice} was saved !"
     elif request.method == 'GET':
         ##Loads leagues from json
