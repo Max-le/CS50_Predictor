@@ -3,3 +3,7 @@ predictor.db
 .vscode/*
 __pycache__/*
 api.key
+lib/*
+bin/*
+include/*
+pyvenv.cfg
