@@ -29,6 +29,7 @@ class Feedback(db.Model):
     dealer = db.Column(db.String(200))
     rating = db.Column(db.Integer)
     comments = db.Column(db.Text())
+    
     ##Constructor
     def __init__(self, customer, dealer, rating, comments):
         self.customer = customer
