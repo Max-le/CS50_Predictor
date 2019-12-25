@@ -10,9 +10,31 @@ from helpers import *
 import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
+ 
+# Add a config key - format : (postgressql://username@localhost/database_name ) 
+app.config=["SQLALCHEMY_DATABASE_URI"] = 'postgressql://postgres123456@localhost/test1'
 
-##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
+# 754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
 LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Create a model for the table
+db = SQLAlchemy(app)
+
+# Feedback class extending db.Model
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
+    id = db.Column(db.Integer, primary_key=True)
+    customer = db.Column(db.String(200), unique=True)
+    dealer = db.Column(db.String(200))
+    rating = db.Column(db.Integer)
+    comments = db.Column(db.Text())
+    ##Constructor
+    def __init__(self, customer, dealer, rating, comments):
+        self.customer = customer
+        self.dealer = dealer
+        self.rating = rating
+        self.comments = comments
 
 
 # Configure application
