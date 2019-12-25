@@ -45,8 +45,9 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("postgres://cuauscspctudxl:c9655cc9bab790808299950226525505925232c9d42c0516841bfd8c60e90965@ec2-54-247-72-30.eu-west-1.compute.amazonaws.com:5432/d147tp7uclv6ak
-")
+HEROKU_URI = "postgres://cuauscspctudxl:c9655cc9bab790808299950226525505925232c9d42c0516841bfd8c60e90965\@ec2-54-247-72-30.eu-west-1.compute.amazonaws.com:5432/d147tp7uclv6ak?sslmode=require"
+LOCAL_URI = "postgres://max@localhost:5432/max"
+db = SQL(LOCAL_URI)
 
 @app.route("/")
 @login_required
