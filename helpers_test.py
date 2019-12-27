@@ -27,3 +27,8 @@ class MyTest(unittest.TestCase):
 
     def test_get_league_logo(self):
         self.assertEqual(type(get_logo(656)), type(" "))
+    def test_passwrdstrength(self):
+        mypass = 'helloGuys'
+        print(check_pwd_strentgh(mypass))
+        ##should return a list
+        self.assertEqual(type(check_pwd_strentgh(mypass)), type([]))

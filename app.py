@@ -11,7 +11,6 @@ import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
-
 ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
 LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
 
@@ -239,6 +238,7 @@ def register():
         elif not request.form.get("password") or not request.form.get("confirmation"):
             return apology("enter your password and password confirmation !", 400)
         ##Checks password and confirmation are the same
+        #TODO : Check password strength
         if request.form.get("password") == request.form.get("confirmation"):
             pwdhash = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
             print("Hash : ", pwdhash)

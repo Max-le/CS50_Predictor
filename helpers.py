@@ -5,6 +5,7 @@ from cs50 import SQL
 from flask import redirect, render_template, request, session
 from functools import wraps
 from datetime import datetime, timedelta
+from password_strength import PasswordPolicy
 
 db = SQL("sqlite:///predictor.db")
 f = open('api.key', "r")
@@ -191,6 +192,11 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
+
+
+def check_pwd_strentgh(password: str):
+        pwd_policy = PasswordPolicy.from_names(length=8,uppercase=1,numbers=2)
+        return pwd_policy.test(password)
 
 def login_required(f):
     """
