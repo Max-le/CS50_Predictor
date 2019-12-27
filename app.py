@@ -233,16 +233,17 @@ def register():
     """Register user"""
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        pwd = request.form.get("password")
         if not request.form.get("username"):
             return apology("enter your username !", 400)
-        elif not request.form.get("password") or not request.form.get("confirmation"):
+        elif not pwd or not request.form.get("confirmation"):
             return apology("enter your password and password confirmation !", 400)
         ##Checks password and confirmation are the same
         #TODO : Check password strength
-        if not pass_strength_test:
+        elif not pass_strength_test(pwd):
             return apology('Please provide a stronger password ( min. 8 characters and 1 digit.) ')
-        if request.form.get("password") == request.form.get("confirmation"):
-            pwdhash = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
+        if pwd == request.form.get("confirmation"):
+            pwdhash = generate_password_hash(pwd, method='pbkdf2:sha256', salt_length=8)
             print("Hash : ", pwdhash)
 
             ## the query may fail if username is already in the DB.
