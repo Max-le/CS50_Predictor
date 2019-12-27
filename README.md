@@ -100,7 +100,7 @@ Go just to http://localhost:5000/update_database ( careful though, this triggers
 ## Roadmap
 Ideas for further development of the project :
 
-* More standard registration : require email adress and minimum complexity for password. 
+* More standard registration : require email adress and minimum complexity for password.✅ ( DONE )
 * More social : compare your total score and predictions with your friends.
   * Invite friends to join ( send email )
   * Create parties and rank users. 
