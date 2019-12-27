@@ -194,9 +194,12 @@ def apology(message, code=400):
     return render_template("apology.html", top=code, bottom=escape(message)), code
 
 
-def check_pwd_strentgh(password: str):
+def pass_strength_test(password: str) -> list:
         pwd_policy = PasswordPolicy.from_names(length=8,uppercase=1,numbers=2)
-        return pwd_policy.test(password)
+        if pwd_policy.test(password)  == []:
+            return True
+        else:
+            return False
 
 def login_required(f):
     """
