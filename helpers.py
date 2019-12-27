@@ -195,7 +195,7 @@ def apology(message, code=400):
 
 
 def pass_strength_test(password: str) -> list:
-        pwd_policy = PasswordPolicy.from_names(length=8,uppercase=1,numbers=2)
+        pwd_policy = PasswordPolicy.from_names(length=8,numbers=1)
         if pwd_policy.test(password)  == []:
             return True
         else:

@@ -239,6 +239,8 @@ def register():
             return apology("enter your password and password confirmation !", 400)
         ##Checks password and confirmation are the same
         #TODO : Check password strength
+        if not pass_strength_test:
+            return apology('Please provide a stronger password ( min. 8 characters and 1 digit.) ')
         if request.form.get("password") == request.form.get("confirmation"):
             pwdhash = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
             print("Hash : ", pwdhash)
