@@ -63,6 +63,11 @@ def index():
         f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
     return render_template("/index.html", fixtures=fixtures)
 
+@app.route("/help")
+@login_required
+def help():
+    return render_template("help.html")
+
 @app.route('/leagues')  
 def leagues():
     f = open("models/leagues.json", "r")
