@@ -11,7 +11,7 @@ import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
-##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
+##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1, 524 = England Premier League
 LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
 
 
