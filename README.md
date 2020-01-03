@@ -27,11 +27,10 @@ I published a diagram that I used as a blueprint for the architecture of the cod
 
 * Place a bet on a upcoming fixture : try to guess the final score of the match. The homepage ( index.html ) shows several upcoming matches for a football championship. 
 
-* Once the match is finished, the server checks your prediction with the final score. : 
+* Once the match is finished, the server checks your prediction with the final score : 
   - You get 3 points if you predicted the exact score. 
   - You get 1 point if you're right about winning and losing team or if you predicted a draw, but not the right number of goals.
   - Otherwise, you don't get points for the match. 
-If the user predicted a draw ( but not the right # of goals ) : +1
 
 The table in the database containing all the informations about fixtures is refreshed every 30 minutes.
 * See the your activity on the page "My bets". 
