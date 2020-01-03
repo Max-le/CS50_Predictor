@@ -2,43 +2,46 @@
 
  *Try to guess the outcome of soccer events and earn points for your right predictions !*
 
+The project is deployed on Heroku : http://predictor-foot.herokuapp.com/
 ## Description
 
  This is my final project for the online course CS50's Introduction to Computer Science.
 
  This is basically like a betting website, but instead of betting ( and losing ) your money, you just earn points for correct decisions.
 
- As the CS50 Finance assignement, the project uses the web-framework [Flask](https://www.palletsprojects.com/p/flask/). 
+
+As the CS50 Finance assignement, the project uses the web-framework [Flask](https://www.palletsprojects.com/p/flask/). 
 
 Data used on this project is provided [API-Football.com](https://www.api-football.com/documentation).
 
 #### Technical aspects : 
 I didn't change much the file organization of this project from CS50 Finance : 
-- app.py is the "main" code : it is executed when running `flask run`. It contains all the routes and thus handles HTTP requests. 
+- app.py contains the "main" code : it is executed when running `flask run`. It contains all the routes and thus handles HTTP requests. 
 - HTML Pages are in /templates folder. CSS and favicon.ico are in /static folder. 
 - helpers.py holds functions that I wanted to externalize from app.py and functions already written by CS50 ( like the meme apology ).
-- I created helpers_test.py to test several important functions. ( unittest library ) 
-- I published a diagram that I used as a blueprint for the architecture of the code. [Check it out if you want](https://www.draw.io/?lightbox=1&highlight=0000ff&nav=1&title=Predictor%20Architecture.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1dYA1t9bzluw2TpN6wMd3xZD8H4PFihyt%26export%3Ddownload).
+- I created helpers_test.py to test several important functions ( unittest library ). 
+
+I published a diagram that I used as a blueprint for the architecture of the code : [check it out here if you want](https://www.draw.io/?lightbox=1&highlight=0000ff&nav=1&title=Predictor%20Architecture.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1dYA1t9bzluw2TpN6wMd3xZD8H4PFihyt%26export%3Ddownload).
 
 ### Features
 
-* Place a bet on a upcoming fixture : try to guess the final score of the match.
-* Once the match is finished, the server checks your prediction with the final score. : 
+* Place a bet on a upcoming fixture : try to guess the final score of the match. The homepage ( index.html ) shows several upcoming matches for a football championship. 
+
+* Once the match is finished, the server checks your prediction with the final score : 
   - You get 3 points if you predicted the exact score. 
   - You get 1 point if you're right about winning and losing team or if you predicted a draw, but not the right number of goals.
   - Otherwise, you don't get points for the match. 
-If the user predicted a draw ( but not the right # of goals ) : +1
-The database are refreshed every 30 minutes.
+
+The table in the database containing all the informations about fixtures is refreshed every 30 minutes.
 * See the your activity on the page "My bets". 
+* For testing purposes, it is possible to bet on past events using the route /past_fixtures . Of course this cannot be possible for the final user. 
 
 
 ## Installation
 
-
+First of all, you should obviously download the project of your machine. 
 You need an account on [API-Football.com](https://www.api-football.com/documentation) in order to get an **API key**. ( basic account is free ).
-  The code reads the API key from a external file named "api.key", so : 
-
-  Once you managed to get your key, create a file named "api.key" ( .key is the extension ). You can type 
+  The code reads the API key from a external file named "api.key", so once you managed to get your key in API-Football.com, create a file named "api.key" ( .key is the extension ). In Terminal, you can navigate to the directory and type 
 
   `touch api.key`
 
@@ -94,14 +97,25 @@ http://localhost:5000/
 
 Create an account on http://localhost:5000/register. 
 
-The first time you run the server, you may see an empty table on the home page. You then need to update the database manually. 
-Go just to http://localhost:5000/update_database ( careful though, this triggers an API call )
+The first time you run the server, you may see an empty table on the home page.  That's normal, the database you created is empty. You need to update the database manually.
+I made a function in helpers.py that fetchs the data via an API Call and add and updates the Fixtures table. 
+You can call it via a query string in the route /update_fixtures with the ID of the league as a argument. For example, in order to add and updates French Ligue 1's fixtures that would be : 
+
+http://localhost:5000/update_fixtures?id=525
+
+On a local server. 
+
+Here's a few IDs of the leagues available on API-Football.com : 
+
+754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1, 524 = England Premier League
+
+Of course, the full list can be retrieved using an API Call to their service. 
 
 ## Roadmap
 Ideas for further development of the project :
 
-* More standard registration : require email adress and minimum complexity for password. 
+* More standard registration : require email adress and minimum complexity for password, not just a username. 
 * More social : compare your total score and predictions with your friends.
   * Invite friends to join ( send email )
   * Create parties and rank users. 
-* Ability to switch leagues
+* Ability to switch leaguess
