@@ -1,6 +1,6 @@
 import unittest
 from helpers import * 
-
+from app import * 
 class MyTest(unittest.TestCase):
     def test(self):
         self.assertTrue(True)
@@ -30,3 +30,7 @@ class MyTest(unittest.TestCase):
     def test_pass_strength_test(self):
         mypass = 'helloGuys'
         self.assertEqual(type(pass_strength_test(mypass)), type(True))
+    def test_get_used_leagues(self):
+        self.assertEqual(type(get_leagues_used()), type([]))
+    def test_update_job(self):
+        self.assertEqual(type(app.update_job()), type(10))
