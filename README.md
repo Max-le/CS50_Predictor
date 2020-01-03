@@ -2,6 +2,7 @@
 
  *Try to guess the outcome of soccer events and earn points for your right predictions !*
 
+The project is deployed on Heroku : http://predictor-foot.herokuapp.com/
 ## Description
 
  This is my final project for the online course CS50's Introduction to Computer Science.
