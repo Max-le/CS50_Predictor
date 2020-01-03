@@ -35,6 +35,7 @@ If the user predicted a draw ( but not the right # of goals ) : +1
 
 The table in the database containing all the informations about fixtures is refreshed every 30 minutes.
 * See the your activity on the page "My bets". 
+* For testing purposes, it is possible to bet on past events using the route /past_fixtures . Of course this cannot be possible for the final user. 
 
 
 ## Installation
@@ -99,9 +100,11 @@ Create an account on http://localhost:5000/register.
 
 The first time you run the server, you may see an empty table on the home page.  That's normal, the database you created is empty. You need to update the database manually.
 I made a function in helpers.py that fetchs the data via an API Call and add and updates the Fixtures table. 
-You can call it via a query string in the route /update_fixtures with the ID of the league as a argument. For example locally that would be : 
+You can call it via a query string in the route /update_fixtures with the ID of the league as a argument. For example, in order to add and updates French Ligue 1's fixtures that would be : 
 
 http://localhost:5000/update_fixtures?id=525
+
+On a local server. 
 
 Here's a few IDs of the leagues available on API-Football.com : 
 
