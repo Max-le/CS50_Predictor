@@ -14,8 +14,20 @@ if f.mode =='r':
 else: 
     raise FileNotFoundError
 
+def get_leagues_used():
+    '''See from what leagues are the fixtures in the table'''
+    result = db.execute("SELECT DISTINCT league_id FROM Fixtures ; ")
+    if not result: 
+        raise Exception("SQL Query couldn't find any league_id in fixtures table.\nThe Fixtures table is presumably empty.")
+    ids = []
+    for el in result: 
+        ids.append(el['league_id'])
+    print("Final list = " , ids)
+    return ids
+
 def update_fixtures_database(League_ID: int):
-    '''Performs an API Call and update Fixtures database accordingly'''
+    '''Performs an API Call and update Fixtures database accordingly.\n\
+    Returns the number of rows added/updated.'''
     response_data = get_fixtures_league(League_ID).json()
     fixtures = response_data["api"]["fixtures"]
     if not fixtures: 

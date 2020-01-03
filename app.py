@@ -13,13 +13,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1, 524 = England Premier League
 LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
-
-
+LEAGUES_USED = []
 # Configure application
 app = Flask(__name__)
-def update_job():
-    '''This function is called on regular intervals by the BackgroundScheduler'''
-    return 0 
+def update_job():    
+    for l_id in get_leagues_used():
+        rows_updated = update_fixtures_database(l_id)
+    print(rows_updated, ' fields were updated.')
+    return rows_updated
 
 
 scheduler = BackgroundScheduler()
