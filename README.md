@@ -13,7 +13,7 @@ The project is up and running on Heroku !
 
 As the CS50 Finance assignement, the project uses the web-framework [Flask](https://www.palletsprojects.com/p/flask/). 
 
-Data used on this project is provided [API-Football.com](https://www.api-football.com/documentation).
+Data used on this project is provided by [API-Football.com](https://www.api-football.com/documentation).
 
 #### Technical aspects : 
 I didn't change much the file organization of this project from CS50 Finance : 
