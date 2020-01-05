@@ -24,7 +24,7 @@ def update_job():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(update_job, trigger='interval', minutes=30)
+scheduler.add_job(update_job, trigger='interval', minutes=60*5)
 scheduler.start()
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
