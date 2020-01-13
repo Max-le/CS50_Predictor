@@ -9,33 +9,36 @@ from password_strength import PasswordPolicy
 
 db = SQL("sqlite:///predictor.db")
 f = open('api.key', "r")
-if f.mode =='r': 
+if f.mode == 'r':
     API_KEY = f.read()
-else: 
+else:
     raise FileNotFoundError
 
+
 def get_leagues_used():
-    '''See from what leagues are the fixtures in the table'''
+    """See from what leagues are the fixtures in the table"""
     result = db.execute("SELECT DISTINCT league_id FROM Fixtures ; ")
-    if not result: 
-        raise Exception("SQL Query couldn't find any league_id in fixtures table.\nThe Fixtures table is presumably empty.")
+    if not result:
+        raise Exception(
+            "SQL Query couldn't find any league_id in fixtures table.\nThe Fixtures table is presumably empty.")
     ids = []
-    for el in result: 
+    for el in result:
         ids.append(el['league_id'])
-    print("Final list = " , ids)
+    print("Final list = ", ids)
     return ids
 
+
 def update_fixtures_database(League_ID: int):
-    '''Performs an API Call and update Fixtures database accordingly.\n\
-    Returns the number of rows added/updated.'''
+    """Performs an API Call and update Fixtures database accordingly.\n\
+    Returns the number of rows added/updated."""
     response_data = get_fixtures_league(League_ID).json()
     fixtures = response_data["api"]["fixtures"]
-    if not fixtures: 
+    if not fixtures:
         print("NO DATA FOUND.")
         return 1
     print(response_data["api"]["results"], "entries. ")
-    count = 0 
-    for fixture in fixtures: 
+    count = 0
+    for fixture in fixtures:
         result = db.execute("\
         INSERT INTO fixtures\
         (fixture_id,league_id,event_date,status, venue,\
@@ -59,22 +62,25 @@ def update_fixtures_database(League_ID: int):
             goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
             if not update_result: 
                 print("UPDATE FAILED. SOMETHING WENT WRONG. ", update_result)
-                return 2; 
+                return 2;
             print("UPDATE Successfull : ", update_result)
-        count+=1
-        print("DB INSERT successfull:",result)
+        count += 1
+        print("DB INSERT successfull:", result)
     print(count, "fields updated.")
     return count
 
+
 def get_logo(league_id: int):
-    '''returns the URL to an image representing the logo of the league\nThis function looks up on local file leagues.json.'''
+    """returns the URL to an image representing the logo of the league\nThis function looks up on local file
+    leagues.json. """
     f = open('models/leagues.json', 'r')
     leagues = json.loads(f.read())['api']['leagues']
-    for l in leagues: 
+    for l in leagues:
         if l['league_id'] == league_id:
             return l['logo']
     print("Couldn't find logo for league ", league_id)
-    return 1 
+    return 1
+
 
 def local_fixture_data(fixture_id):
     result = db.execute("SELECT * FROM fixtures WHERE fixture_id=:id", id=fixture_id)
@@ -82,17 +88,21 @@ def local_fixture_data(fixture_id):
         print("Warning : None result from SQL SELECT query")
         return None
     return result[0]
+
+
 def home_team_name(fixture_id):
     f = local_fixture_data(fixture_id)
     if not f:
         raise Exception(f"Fixture {fixture_id} couldn't be found in the database Fixtures.")
     return json.loads(f["homeTeam"])["team_name"]
+
+
 def get_event_date(fixture_id):
     '''gets the event of a fixture from its ID.'''
     date = db.execute("SELECT event_date FROM fixtures WHERE fixture_id=:id", id=fixture_id)
     if not date:
-        raise Exception(f"Fixture {fixture_id} couldn't be found in the databse Fixtures.") 
-    return date[0]["event_date"] 
+        raise Exception(f"Fixture {fixture_id} couldn't be found in the databse Fixtures.")
+    return date[0]["event_date"]
 
 
 def away_team_name(fixture_id):
@@ -110,19 +120,23 @@ def get_fixtures_league(league_id):
     )
     print(f"{response.headers['X-RateLimit-requests-Remaining']} / {response.headers['X-RateLimit-requests-Limit']} API calls remaining for today." )
     return response
+
+
 def replace_teams_names(fixture):
     # Replace homeTeam and awayTeam fields by a string 
     # containing only the name of the team instead of a JSON bundle. 
     teamH_name = json.loads(fixture["homeTeam"])["team_name"]
-    teamA_name = json.loads(fixture["awayTeam"])["team_name"] 
+    teamA_name = json.loads(fixture["awayTeam"])["team_name"]
     fixture["homeTeam"], fixture["awayTeam"] = teamH_name, teamA_name
-    return 0 
+    return 0
+
+
 def place_teams_logo(fixture):
     '''add an entry with the logo img url of the team.'''
     teamH_logo = json.loads(fixture["homeTeam"])["logo"]
-    teamA_logo = json.loads(fixture["awayTeam"])["logo"] 
+    teamA_logo = json.loads(fixture["awayTeam"])["logo"]
     fixture["home_logo"], fixture["away_logo"] = teamH_logo, teamA_logo
-    return 0 
+    return 0
 
 
 def parse_scores(scores: str) -> list:
@@ -132,67 +146,79 @@ def parse_scores(scores: str) -> list:
     l.append(int(scores[len(scores) - 1]))
     return l
 
+
 def prettier_time(time: str) -> str:
     '''Returns a time formatted as : 1 Jan 2020 @ 00:00'''
     time_o = datetime.strptime(time, "%Y-%m-%dT%H:%M:%S%z")
     return time_o.strftime("%d %b %Y @ %H:%M")
+
+
 def assign_user_score(user_id: int, points: int):
     '''Write the score ('points') for a user_id in User table'''
     result = db.execute("UPDATE users SET points=:points WHERE id=:u_id", points=points, u_id=user_id)
     if not result:
         return 1
-    return 0 
+    return 0
+
 
 def get_user_points(user_id: int):
     '''Returns the total amount of points of a user from the Users table'''
     points = db.execute("SELECT points FROM users WHERE id=:u_id ;", u_id=user_id)
-    
+
     return points[0]['points']
+
+
 def calculate_score(user_id: int) -> int:
     '''returns the total score of a user from its ID'''
-    bets = db.execute("SELECT * FROM bets WHERE user_id=:id", id = user_id)
-    points = 0 
-    if not bets : 
+    bets = db.execute("SELECT * FROM bets WHERE user_id=:id", id=user_id)
+    points = 0
+    if not bets:
         return 0
     for bet in bets:
-        if bet["final_score"] != None :
+        if bet["final_score"] != None:
             guess = parse_scores(bet["guess_score"])
             final = parse_scores(bet["final_score"])
             ##Perfect guess
             if guess[0] == final[0] and guess[1] == final[1]:
-                points+=3
+                points += 3
             ##correctly guess winning and losing teams or guess a draw, without the exact score
-            elif (guess[0] > guess[1] and final[0] > final[1])\
-                or (guess[0] < guess[1] and final[0] < final[1])\
-                or (guess[0] == guess[1] and final[0 == final[1]]):
-                points+=1
+            elif (guess[0] > guess[1] and final[0] > final[1]) \
+                    or (guess[0] < guess[1] and final[0] < final[1]) \
+                    or (guess[0] == guess[1] and final[0 == final[1]]):
+                points += 1
             else:
-                points+=0
+                points += 0
     return points
+
 
 def update_final_scores():
     '''Updates the final_score field in Bets table from Fixtures table'''
     count = 0
-    #Get all fixtures existing in Bets table 
+    # Get all fixtures existing in Bets table
     bets = db.execute("SELECT fixture_id FROM bets")
-    for bet in bets: 
-        fixture = db.execute("SELECT status, score FROM fixtures WHERE fixture_id=:id AND status=\"Match Finished\" ;", id=bet["fixture_id"])
-        if fixture:  
-            score_json = json.loads(fixture[0]["score"])         
-            final_score =score_json["fulltime"]
-            if final_score == None: 
+    for bet in bets:
+        fixture = db.execute("SELECT status, score FROM fixtures WHERE fixture_id=:id AND status=\"Match Finished\" ;",
+                             id=bet["fixture_id"])
+        if fixture:
+            score_json = json.loads(fixture[0]["score"])
+            final_score = score_json["fulltime"]
+            if final_score == None:
                 final_score = fixture[0]["score"]["extratime"]
                 if final_score == None:
                     final_score = fixture[0]["score"]["penalty"]
                     if final_score == None:
-                        raise Exception('Error : couldn\'t get the final score of this fixture. Maybe match is not finished yet.')
-            update_result = db.execute("UPDATE bets SET final_score = :score, match_finished='True' WHERE fixture_id = :id ;",\
-                    id = bet['fixture_id'], score = final_score  )
-            count+=1
-    return 0 
+                        raise Exception(
+                            'Error : couldn\'t get the final score of this fixture. Maybe match is not finished yet.')
+            update_result = db.execute(
+                "UPDATE bets SET final_score = :score, match_finished='True' WHERE fixture_id = :id ;", \
+                id=bet['fixture_id'], score=final_score)
+            count += 1
+    return 0
+
 
 def apology(message, code=400):
     """Render message as an apology to user."""
+
     def escape(s):
         """
         Escape special characters.
@@ -203,15 +229,17 @@ def apology(message, code=400):
                          ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
             s = s.replace(old, new)
         return s
+
     return render_template("apology.html", top=code, bottom=escape(message)), code
 
 
 def pass_strength_test(password: str) -> list:
-        pwd_policy = PasswordPolicy.from_names(length=8,numbers=1)
-        if pwd_policy.test(password)  == []:
-            return True
-        else:
-            return False
+    pwd_policy = PasswordPolicy.from_names(length=8, numbers=1)
+    if pwd_policy.test(password) == []:
+        return True
+    else:
+        return False
+
 
 def login_required(f):
     """
@@ -219,11 +247,11 @@ def login_required(f):
 
     http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
     """
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
             return redirect("/login")
         return f(*args, **kwargs)
+
     return decorated_function
-
-
