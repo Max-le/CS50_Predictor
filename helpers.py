@@ -45,22 +45,29 @@ def update_fixtures_database(League_ID: int):
         homeTeam,awayTeam, goalsHomeTeam, goalsAwayTeam, score\
         ) VALUES\
         (:fixture_id, :league_id, :event_date, :status,\
-        :venue, :homeTeam, :awayTeam, :goalsHomeTeam, :goalsAwayTeam, :score);",\
-        fixture_id=fixture["fixture_id"], league_id=fixture["league_id"], event_date=fixture["event_date"],\
-        status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
-        goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
-        if not result :
-            ##Try UPDATE
-            print(f"Couldn't write entry {fixture['fixture_id']}, it's likely it already exists.\nTrying UPDATE query... ")
-            
+        :venue, :homeTeam, :awayTeam, :goalsHomeTeam, :goalsAwayTeam, :score);", \
+                            fixture_id=fixture["fixture_id"], league_id=fixture["league_id"],
+                            event_date=fixture["event_date"], \
+                            status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]),
+                            awayTeam=json.dumps(fixture["awayTeam"]), \
+                            goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"],
+                            score=json.dumps(fixture["score"]))
+        if not result:
+            #Try UPDATE
+            print(
+                f"Couldn't write entry {fixture['fixture_id']}, it's likely it already exists.\nTrying UPDATE query... ")
+
             update_result = db.execute("UPDATE fixtures SET\
             event_date = :event_date, status = :status, venue = :venue,\
             goalsHomeTeam = :goalsHomeTeam, awayTeam = :awayTeam, homeTeam = :homeTeam,\
-            goalsAwayTeam = :goalsAwayTeam, score = :score WHERE fixture_id = :fixture_id",\
-            fixture_id=fixture["fixture_id"], event_date=fixture["event_date"],\
-            status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
-            goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
-            if not update_result: 
+            goalsAwayTeam = :goalsAwayTeam, score = :score WHERE fixture_id = :fixture_id", \
+                                       fixture_id=fixture["fixture_id"], event_date=fixture["event_date"], \
+                                       status=fixture["status"], venue=fixture["venue"],
+                                       homeTeam=json.dumps(fixture["homeTeam"]),
+                                       awayTeam=json.dumps(fixture["awayTeam"]), \
+                                       goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"],
+                                       score=json.dumps(fixture["score"]))
+            if not update_result:
                 print("UPDATE FAILED. SOMETHING WENT WRONG. ", update_result)
                 return 2;
             print("UPDATE Successfull : ", update_result)
@@ -118,7 +125,8 @@ def get_fixtures_league(league_id):
         f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{league_id}?timezone=Europe/Paris",
         headers={'X-RapidAPI-Key': API_KEY}
     )
-    print(f"{response.headers['X-RateLimit-requests-Remaining']} / {response.headers['X-RateLimit-requests-Limit']} API calls remaining for today." )
+    print(
+        f"{response.headers['X-RateLimit-requests-Remaining']} / {response.headers['X-RateLimit-requests-Limit']} API calls remaining for today.")
     return response
 
 
