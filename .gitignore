@@ -7,3 +7,5 @@ lib/*
 bin/*
 include/*
 pyvenv.cfg
+
+predictor.db

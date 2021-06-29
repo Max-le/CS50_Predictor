@@ -1,8 +1,11 @@
 import os
 
-from cs50 import SQL
+#from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
+
+from flask_sqlalchemy import SQLAlchemy
+
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -10,6 +13,8 @@ from helpers import *
 import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask_migrate import Migrate
+
 
 
 ##754= Current Bundesliga, 656=Current Pro League, 525=Ligue 1
@@ -18,6 +23,10 @@ LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
 
 # Configure application
 app = Flask(__name__)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
     return 0 
@@ -28,6 +37,7 @@ scheduler.add_job(update_job, trigger='interval', minutes=30)
 scheduler.start()
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
 
 # Ensure responses aren't cached so we avoid unnoticed changes in the browser.
 @app.after_request
@@ -43,13 +53,20 @@ def after_request(response):
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Session(app)
 
+
+from models import User, Match, Bet
+
 # Configure CS50 Library to use SQLite database
-HEROKU_URI = "postgres://cuauscspctudxl:c9655cc9bab790808299950226525505925232c9d42c0516841bfd8c60e90965\@ec2-54-247-72-30.eu-west-1.compute.amazonaws.com:5432/d147tp7uclv6ak?sslmode=require"
+HEROKU_URI = "postgresql://qvjmykpceknmbn:5b270002260d794ef0915621c4536ac23fd6573846eb6af4758439e618d75f98@ec2-46-137-188-105.eu-west-1.compute.amazonaws.com:5432/d5b9cc76c67ea8"
 LOCAL_URI = "postgres://max@localhost:5432/max"
 SQLITE_DB = 'sqlite:///predictor.db'
-db = SQL(SQLITE_DB)
+
+QLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+
+#db = SQLAlchemy(app)
 
 @app.route("/")
 @login_required
