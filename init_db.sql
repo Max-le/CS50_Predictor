@@ -27,8 +27,4 @@ hash TEXT
 
 CREATE TABLE users (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-username TEXT UNIQUE, 
-hash TEXT  ,
-points INTEGER,
-hash TEXT, 
-choice_league INTEGER);
+username TEXT UNIQUx

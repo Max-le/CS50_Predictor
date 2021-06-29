@@ -23,9 +23,6 @@ LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
 
 # Configure application
 app = Flask(__name__)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
 
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
@@ -64,7 +61,7 @@ HEROKU_URI = "postgresql://qvjmykpceknmbn:5b270002260d794ef0915621c4536ac23fd657
 LOCAL_URI = "postgres://max@localhost:5432/max"
 SQLITE_DB = 'sqlite:///predictor.db'
 
-QLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+app.config['QQLALCHEMY_DATABASE_URI'] = LOCAL_URI
 
 #db = SQLAlchemy(app)
 

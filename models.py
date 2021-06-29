@@ -19,7 +19,7 @@ class Bet(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     match_id = db.Column(db.String(512), nullable=False)
-    username = db.Column(db.Integer, db.ForeignKey('user.username')) # Foreign key
+    username = db.Column(db.String(80), db.ForeignKey('users.username')) # Foreign key
     score_team_home = db.Column(db.Integer)
     score_team_away = db.Column(db.Integer)
 
