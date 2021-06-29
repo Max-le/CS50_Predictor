@@ -24,6 +24,12 @@ LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
 # Configure application
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URI"]
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
     return 0 
