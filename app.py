@@ -24,7 +24,14 @@ LEAGUES_AVAILABLE = [525, 754, 514, 656, 524]
 # Configure application
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URL'] = os.environ["DATABASE_URL"]
+# Database options
+HEROKU_URI = "postgresql://qvjmykpceknmbn:5b270002260d794ef0915621c4536ac23fd6573846eb6af4758439e618d75f98@ec2-46-137-188-105.eu-west-1.compute.amazonaws.com:5432/d5b9cc76c67ea8"
+LOCAL_URI = "postgresql://max@localhost:5432/max"
+SQLITE_DB = 'sqlite:///predictor.db'
+
+
+# app.config['SQLALCHEMY_DATABASE_URL'] = os.environ["DATABASE_URL"]
+app.config['SQLALCHEMY_DATABASE_URI'] = LOCAL_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -56,28 +63,20 @@ def after_request(response):
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Session(app)
 
 
 from models import User, Match, Bet
 
-# Configure CS50 Library to use SQLite database
-HEROKU_URI = "postgresql://qvjmykpceknmbn:5b270002260d794ef0915621c4536ac23fd6573846eb6af4758439e618d75f98@ec2-46-137-188-105.eu-west-1.compute.amazonaws.com:5432/d5b9cc76c67ea8"
-LOCAL_URI = "postgres://max@localhost:5432/max"
-SQLITE_DB = 'sqlite:///predictor.db'
-
-app.config['QQLALCHEMY_DATABASE_URI'] = LOCAL_URI
-
-#db = SQLAlchemy(app)
 
 @app.route("/")
 @login_required
 def index():
     """Show upcoming fixtures"""
-    user_id = session["user_id"]
+    username = session["username"]
     now = datetime.datetime.strftime(datetime.datetime.today(), "%Y-%m-%dT%H:%M:%S%z")
-    fixtures = db.execute("SELECT fixture_id, event_date, venue, homeTeam, awayTeam FROM fixtures WHERE event_date>:now ORDER BY event_date LIMIT 10 ", now=now)    
+    fixtures = Match.query.all()
+    print(fixtures)
     for f in fixtures: 
         place_teams_logo(f)
         replace_teams_names(f) 
@@ -222,22 +221,24 @@ def login():
             return apology("must provide password", 400)
 
         # try to find the provided username is the db
-        rows = db.execute("SELECT * FROM users WHERE username = :username",
-                          username=request.form.get("username"))
+        user = User.query.filter_by(username=request.form.get("username")).first()
 
-        # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 400)
-
+        # check if the user actually exists
+        # take the user-supplied password, hash it, and compare it to the hashed password in the database
+        if not user or not check_password_hash(user.password_hash, request.form.get('password')):
+            flash('Please check your login details and try again.')
+            return 'error login' # if the user doesn't exist or password is wrong, reload the page
+        print(user)
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
-        print(session["user_id"])
+        session["username"] = user.username
+        print("sesssion created : ", session["username"])
 
         # Redirect user to home page
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
+        print('Returning login form')
         return render_template("login.html")
 
 
@@ -260,19 +261,20 @@ def register():
             return apology("enter your password and password confirmation !", 400)
         ##Checks password and confirmation are the same
         if request.form.get("password") == request.form.get("confirmation"):
+
+            if (User.query.filter_by(username=request.form.get('username'))):
+                print("username already exists.")
+
+
             pwdhash = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
             print("Hash : ", pwdhash)
 
             ## the query may fail if username is already in the DB.
-            result = db.execute("INSERT INTO users  ( username, hash ) VALUES ( :username, :hash );"
-            ,username=request.form.get("username"), hash=pwdhash )
-
-            if not result:
-                return apology(f"Sorry, we got an error code {result}. It's likely the username is already taken.")
-            else:
-                print("Successfully created user.\n ")
-                session["user_id"] = result # execute() actually returns the id of the just-created value
-                return render_template("success.html")
+            new_user = User(username=request.form.get("username"), password_hash=pwdhash)
+            db.session.add(new_user)
+            db.session.commit()
+            print("Successfully created user.\n ")
+            return render_template("success.html")
 
         else:
             return apology("Password and its confirmation are not identical.", 400)

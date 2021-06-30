@@ -1,12 +1,10 @@
 import os, json
 import requests
 import urllib.parse
-from cs50 import SQL
 from flask import redirect, render_template, request, session
 from functools import wraps
 from datetime import datetime, timedelta
 
-db = SQL("sqlite:///predictor.db")
 f = open('api.key', "r")
 if f.mode =='r': 
     API_KEY = f.read()
@@ -200,7 +198,7 @@ def login_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("user_id") is None:
+        if session.get("username") is None:
             return redirect("/login")
         return f(*args, **kwargs)
     return decorated_function
