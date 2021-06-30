@@ -5,51 +5,64 @@ from flask import redirect, render_template, request, session
 from functools import wraps
 from datetime import datetime, timedelta
 
+from api_call import get_matches_data_from_api
+
 f = open('api.key', "r")
 if f.mode =='r': 
     API_KEY = f.read()
 else: 
     raise FileNotFoundError
 
-def update_fixtures_database(League_ID: int):
-    '''Performs an API Call and update Fixtures database accordingly'''
-    response_data = get_fixtures_league(League_ID).json()
-    fixtures = response_data["api"]["fixtures"]
-    if not fixtures: 
-        print("NO DATA FOUND.")
-        return 1
-    print(response_data["api"]["results"], "entries. ")
-    count = 0 
-    for fixture in fixtures: 
-        result = db.execute("\
-        INSERT INTO fixtures\
-        (fixture_id,league_id,event_date,status, venue,\
-        homeTeam,awayTeam, goalsHomeTeam, goalsAwayTeam, score\
-        ) VALUES\
-        (:fixture_id, :league_id, :event_date, :status,\
-        :venue, :homeTeam, :awayTeam, :goalsHomeTeam, :goalsAwayTeam, :score);",\
-        fixture_id=fixture["fixture_id"], league_id=fixture["league_id"], event_date=fixture["event_date"],\
-        status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
-        goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
-        if not result :
-            ##Try UPDATE
-            print(f"Couldn't write entry {fixture['fixture_id']}, it's likely it already exists.\nTrying UPDATE query... ")
+
+def push_response_to_db(data):
+    '''Takes json_data as parameter, and put it in my posgres database.'''
+    
+
+def update_database():
+    '''Performs an API Call in order to have an up-to-date database.'''
+
+    api_response = get_matches_data_from_api()
+    push_response_to_db()
+
+
+
+    # response_data = get_fixtures_league(League_ID).json()
+    # fixtures = response_data["api"]["fixtures"]
+    # if not fixtures: 
+    #     print("NO DATA FOUND.")
+    #     return 1
+    # print(response_data["api"]["results"], "entries. ")
+    # count = 0 
+    # for fixture in fixtures: 
+    #     result = db.execute("\
+    #     INSERT INTO fixtures\
+    #     (fixture_id,league_id,event_date,status, venue,\
+    #     homeTeam,awayTeam, goalsHomeTeam, goalsAwayTeam, score\
+    #     ) VALUES\
+    #     (:fixture_id, :league_id, :event_date, :status,\
+    #     :venue, :homeTeam, :awayTeam, :goalsHomeTeam, :goalsAwayTeam, :score);",\
+    #     fixture_id=fixture["fixture_id"], league_id=fixture["league_id"], event_date=fixture["event_date"],\
+    #     status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
+    #     goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
+    #     if not result :
+    #         ##Try UPDATE
+    #         print(f"Couldn't write entry {fixture['fixture_id']}, it's likely it already exists.\nTrying UPDATE query... ")
             
-            update_result = db.execute("UPDATE fixtures SET\
-            event_date = :event_date, status = :status, venue = :venue,\
-            goalsHomeTeam = :goalsHomeTeam, awayTeam = :awayTeam, homeTeam = :homeTeam,\
-            goalsAwayTeam = :goalsAwayTeam, score = :score WHERE fixture_id = :fixture_id",\
-            fixture_id=fixture["fixture_id"], event_date=fixture["event_date"],\
-            status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
-            goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
-            if not update_result: 
-                print("UPDATE FAILED. SOMETHING WENT WRONG. ", update_result)
-                return 2; 
-            print("UPDATE Successfull : ", update_result)
-        count+=1
-        print("DB INSERT successfull:",result)
-    print(count, "fields updated.")
-    return count
+    #         update_result = db.execute("UPDATE fixtures SET\
+    #         event_date = :event_date, status = :status, venue = :venue,\
+    #         goalsHomeTeam = :goalsHomeTeam, awayTeam = :awayTeam, homeTeam = :homeTeam,\
+    #         goalsAwayTeam = :goalsAwayTeam, score = :score WHERE fixture_id = :fixture_id",\
+    #         fixture_id=fixture["fixture_id"], event_date=fixture["event_date"],\
+    #         status=fixture["status"], venue=fixture["venue"], homeTeam=json.dumps(fixture["homeTeam"]), awayTeam=json.dumps(fixture["awayTeam"]),\
+    #         goalsHomeTeam=fixture["goalsHomeTeam"], goalsAwayTeam=fixture["goalsHomeTeam"], score=json.dumps(fixture["score"]))
+    #         if not update_result: 
+    #             print("UPDATE FAILED. SOMETHING WENT WRONG. ", update_result)
+    #             return 2; 
+    #         print("UPDATE Successfull : ", update_result)
+    #     count+=1
+    #     print("DB INSERT successfull:",result)
+    print("db updated.")
+    return 0
 
 def get_logo(league_id: int):
     '''returns the URL to an image representing the logo of the league\nThis function looks up on local file leagues.json.'''

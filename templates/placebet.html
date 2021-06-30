@@ -10,13 +10,13 @@
 <div class="container fixture-border">
   <div class="row">
     <div class="col-sm-5">
-      <b>{{homeTeam_name}}</b>
+      <b>{{team_home}}</b>
     </div>
     <div class="col-sm-2">
       vs.
     </div>
     <div class="col-sm-5">
-      <b>{{awayTeam_name}}</b>
+      <b>{{team_away}}</b>
     </div>
   </div>
   <div class="row">
@@ -25,7 +25,7 @@
       {% if venue != None %}
       Stadium : {{venue}} <br> 
       {% endif %}
-      Match begins at {{event_date}}. <br>
+      Match begins at {{time}}. <br>
 
     </div>
   </div>

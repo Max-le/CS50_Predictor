@@ -39,6 +39,7 @@ migrate = Migrate(app, db)
 
 def update_job():
     '''This function is called on regular intervals by the BackgroundScheduler'''
+    print('Scheduled Background job has started.')
     return 0 
 
 
@@ -112,15 +113,15 @@ def choose_your_league():
         return render_template("choose_your_league.html", leagues=n_leagues)
     return 0 
 
-@app.route('/update_fixtures', methods=['GET'])  
+@app.route('/refresh_db', methods=['GET'])
 @login_required   
-def update_fixtures():
+def refresh_db():
     '''Update all fixtures of the league with the provided id.'''
     league_id = request.args.get('id')
     if not league_id :
         return "Please provide a league ID as URL string parameter."
     print('Updating fixtures table in database : adding league ', league_id)
-    result = update_fixtures_database(league_id)
+    result = update_databse(league_id)
     update_final_scores()
     return f"{result} fields updated."
 
