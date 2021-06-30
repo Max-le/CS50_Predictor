@@ -24,6 +24,7 @@ class Bet(db.Model):
     score_team_away = db.Column(db.Integer)
 
 
+
     def __repr__(self):
         return '<id {}>'.format(self.id)
 

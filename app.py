@@ -76,11 +76,12 @@ def index():
     username = session["username"]
     now = datetime.datetime.strftime(datetime.datetime.today(), "%Y-%m-%dT%H:%M:%S%z")
     fixtures = Match.query.all()
-    print(fixtures)
+    
     for f in fixtures: 
-        place_teams_logo(f)
-        replace_teams_names(f) 
-        f['event_date'] = prettier_time(f['event_date'])#Formats date for better displaying
+        print(f.team_home, f.team_away)
+        #place_teams_logo(f)
+        #replace_teams_names(f)
+        if f.time : f.time = prettier_time(f.time) #Formats date for better displaying
     return render_template("/index.html", fixtures=fixtures)
 
 @app.route('/leagues')  
