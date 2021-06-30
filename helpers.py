@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 from api_call import get_matches_data_from_api
 
+
 f = open('api.key', "r")
 if f.mode =='r': 
     API_KEY = f.read()
@@ -16,13 +17,14 @@ else:
 
 def push_response_to_db(data):
     '''Takes json_data as parameter, and put it in my posgres database.'''
-    
+
 
 def update_database():
     '''Performs an API Call in order to have an up-to-date database.'''
 
     api_response = get_matches_data_from_api()
     push_response_to_db()
+    
 
 
 

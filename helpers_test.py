@@ -1,5 +1,6 @@
 import unittest, json
 from helpers import push_response_to_db
+
 class MyTest(unittest.TestCase):
     
     def test_json_to_database(self):
@@ -18,6 +19,7 @@ class MyTest(unittest.TestCase):
         for fixture in loaded_json["response"]: 
 
             print("Fixture ID : ", fixture["fixture"]['id'])
+            print("Fixture time : ", fixture["fixture"]['date'])
             print(fixture["teams"]['home']['name'])
             print("VS.")
             print(fixture["teams"]['away']['name'])

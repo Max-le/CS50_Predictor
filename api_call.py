@@ -2,7 +2,7 @@ import json
 import requests
 
 def get_matches_data_from_api(): 
-    url = "https://v3.football.api-sports.io/fixtures?league=4&season=2020&next=99"
+    url = "https://v3.football.api-sports.io/fixtures?league=4&season=2020&next=50&timezone=Europe/Paris"
 
     payload={}
     headers = {
