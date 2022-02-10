@@ -9,7 +9,7 @@ chardet==4.0.0
 click==8.0.1
 cs50==6.0.4
 dj-database-url==0.5.0
-Django==3.2.4
+Django==3.2.12
 django-heroku==0.0.0
 Flask==2.0.1
 Flask-Login==0.5.0
